@@ -71,30 +71,6 @@
     </div>
   </form>
 
-  <!-- Manual paybill instructions -->
-  <section class="done" id="manualDone" hidden>
-    <h1>Order <span class="orderNo"></span> received</h1>
-    <p>Complete payment with M-Pesa:</p>
-    <div class="paybox">
-      <div>1. Go to <b>Lipa na M-Pesa → Pay Bill</b></div>
-      <div>2. Business number: <span class="big" id="mPaybill"></span></div>
-      <div>3. Account number: <span class="big" id="mAccount"></span></div>
-      <div>4. Amount: <span class="big">KSh <span class="totalText"></span></span></div>
-      <div>5. Enter your PIN and send</div>
-    </div>
-    <p>Then send us your M-Pesa confirmation code and order number <b class="orderNo"></b> on WhatsApp. We'll confirm and dispatch.</p>
-    <a class="btn btn-primary" id="waConfirm" href="#">Send M-Pesa code on WhatsApp</a>
-  </section>
-
-  <!-- STK push waiting / result -->
-  <section class="done" id="stkDone" hidden>
-    <h1 id="stkTitle">Check your phone</h1>
-    <p id="stkText"></p>
-    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
-      <button class="btn btn-outline" type="button" id="retry" hidden>Try again</button>
-      <a class="btn btn-primary" href="https://wa.me/254754144378">Get help on WhatsApp</a>
-    </div>
-  </section>
 </main>
 
 <script>
@@ -110,10 +86,8 @@ fetch('/api/catalogue').then((r) => r.json()).then((c) => {
   product = available.find((p) => p.code === wanted) || available[0];
   $('bandHint').textContent = cat.priceBands.map((b) => `${b.min}–${b.max}: KSh ${fmt(b.price)}`).join(' · ');
   $('town').innerHTML = Object.keys(cat.delivery).map((t) => `<option>${esc(t)}</option>`).join('');
-  $('payHint').textContent = cat.paymentMode === 'stk'
-    ? "You'll get an M-Pesa prompt on this phone. Enter your PIN to pay — we never see it."
-    : "After you place the order we'll show you our paybill details to pay from this number.";
-  $('submit').textContent = cat.paymentMode === 'stk' ? 'Pay with M-Pesa' : 'Place order';
+  $('payHint').textContent = "We'll first confirm your size is in stock, then you pay by M-Pesa. Don't pay until we confirm.";
+  $('submit').textContent = 'Place order';
   renderStyles(available); renderSizes(); update();
 });
 
@@ -173,39 +147,13 @@ $('form').addEventListener('submit', async (e) => {
       body: JSON.stringify({ code: product.code, size, qty, name: $('name').value, town: $('town').value, stage: $('stage').value, phone: $('phone').value }) });
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Something went wrong.');
-    $('form').hidden = true; window.scrollTo(0, 0);
-    document.querySelectorAll('.orderNo').forEach((el) => (el.textContent = data.orderNo));
-    document.querySelectorAll('.totalText').forEach((el) => (el.textContent = fmt(data.total)));
-    if (data.mode === 'stk') return waitForPayment(data);
-    $('mPaybill').textContent = data.paybill; $('mAccount').textContent = data.account;
-    const msg = `Hi Andistride, I've paid for order ${data.orderNo} (KSh ${fmt(data.total)}). M-Pesa code: `;
-    $('waConfirm').href = `https://wa.me/${cat.business.whatsapp}?text=${encodeURIComponent(msg)}`;
-    $('manualDone').hidden = false;
+    location.href = `/order?no=${encodeURIComponent(data.orderNo)}&k=${encodeURIComponent(data.key)}`;
+    return;
   } catch (err) {
     showError(err.message);
   } finally { $('submit').disabled = false; }
 });
 
-function waitForPayment(data) {
-  $('stkDone').hidden = false;
-  $('stkText').textContent = `We've sent an M-Pesa prompt for KSh ${fmt(data.total)}. Enter your PIN to complete order ${data.orderNo}.`;
-  let tries = 0;
-  const timer = setInterval(async () => {
-    tries++;
-    const s = await fetch(`/api/orders/${data.orderNo}/status`).then((r) => r.json()).catch(() => ({}));
-    if (s.status === 'PAID') {
-      clearInterval(timer);
-      $('stkTitle').textContent = 'Payment received — thank you!';
-      $('stkText').textContent = `Order ${data.orderNo} is confirmed. We'll WhatsApp you the parcel details once it's dispatched.`;
-    } else if (s.status === 'FAILED' || tries > 40) {
-      clearInterval(timer);
-      $('stkTitle').textContent = 'Payment not completed';
-      $('stkText').textContent = `Your M-Pesa payment for order ${data.orderNo} didn't go through. You can try again, or pay manually to Paybill ${cat.business.paybill}, account ${cat.business.account}, and WhatsApp us the code.`;
-      $('retry').hidden = false;
-    }
-  }, 3000);
-}
-$('retry').onclick = () => { $('stkDone').hidden = true; $('retry').hidden = true; $('form').hidden = false; };
 </script>
 </body>
 </html>

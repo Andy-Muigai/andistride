@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Your order — Andistride by Andifusion</title>
+<link rel="icon" href="/images/logo.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.steps{display:flex;gap:6px;width:100%;margin:4px 0 8px}
+.step{flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--muted)}
+.step i{display:block;height:6px;border-radius:999px;background:var(--line);margin-bottom:6px}
+.step.on{color:var(--blue-deeper)} .step.on i{background:var(--blue-dark)}
+.item{display:flex;gap:14px;align-items:center;text-align:left;width:100%}
+.item img{width:72px;height:72px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/images/logo.jpg" alt="Andifusion logo"><span><b>ANDISTRIDE</b><small>BY ANDIFUSION</small></span></a>
+    <nav class="nav"><a href="/#shop">Shop</a></nav>
+  </div>
+</header>
+
+<main class="done" id="main" aria-live="polite">
+  <p>Loading your order…</p>
+</main>
+
+<script>
+const fmt = (n) => Number(n || 0).toLocaleString('en-KE');
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const params = new URLSearchParams(location.search);
+const no = params.get('no'), k = params.get('k');
+const url = `/api/orders/${encodeURIComponent(no)}?k=${encodeURIComponent(k)}`;
+const STEP = { AWAITING_CONFIRMATION: 0, UNAVAILABLE: 0, AWAITING_PAYMENT: 1, PENDING: 1, FAILED: 1, AMOUNT_MISMATCH: 1, PAID: 2, DISPATCHED: 3, DELIVERED: 4 };
+let timer, paying = false;
+
+function steps(st) {
+  const n = STEP[st] ?? 0;
+  return `<div class="steps">${['Confirm', 'Pay', 'Paid', 'Dispatched', 'Delivered'].map((l, i) => `<div class="step ${i <= n ? 'on' : ''}"><i></i>${l}</div>`).join('')}</div>`;
+}
+function itemBox(o) {
+  return `<div class="paybox item">${o.image ? `<img src="${esc(o.image)}" alt="">` : ''}<div>
+    <b>${esc(o.item.name)}</b> · size ${o.item.size} · qty ${o.item.qty}<br>
+    Delivery to ${esc(o.town)}: KSh ${fmt(o.deliveryFee)}<br><b>Total: KSh ${fmt(o.total)}</b></div></div>`;
+}
+const wa = (o, text) => `https://wa.me/${o.whatsapp}?text=${encodeURIComponent(text)}`;
+
+function view(o) {
+  const head = `<h1>Order ${esc(o.orderNo)}</h1>${steps(o.status)}`;
+  switch (o.status) {
+    case 'AWAITING_CONFIRMATION':
+      return head + `<p><b>We're checking that your size is in stock.</b> Please don't pay yet — this page updates by itself once we confirm, and we'll also message you on WhatsApp.</p>${itemBox(o)}
+        <a class="btn btn-outline" href="${wa(o, `Hi Andistride, checking on order ${o.orderNo}.`)}">Ask on WhatsApp</a>
+        <p style="font-size:14px">Bookmark this page to come back to your order.</p>`;
+    case 'UNAVAILABLE':
+      return head + `<p><b>Sorry — this item isn't available right now.</b></p>${o.note ? `<div class="paybox">${esc(o.note)}</div>` : ''}${itemBox(o)}
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center"><a class="btn btn-primary" href="/checkout?style=${encodeURIComponent(o.item.code)}">Choose another size or style</a>
+        <a class="btn btn-outline" href="${wa(o, `Hi Andistride, about order ${o.orderNo} that isn't available…`)}">Talk to us on WhatsApp</a></div>`;
+    case 'AWAITING_PAYMENT':
+    case 'FAILED':
+    case 'AMOUNT_MISMATCH':
+      if (o.mode === 'stk') {
+        return head + `<p><b>Good news — it's in stock!</b> Tap below and we'll send an M-Pesa prompt to your phone.</p>
+          ${o.status === 'FAILED' ? `<p class="error">The last payment didn't go through${o.failReason ? ': ' + esc(o.failReason) : ''}. Please try again.</p>` : ''}
+          ${itemBox(o)}<button class="btn btn-primary" id="pay" type="button">Pay KSh ${fmt(o.total)} with M-Pesa</button>
+          <p class="error" id="payErr" hidden></p>
+          <p style="font-size:14px">Prefer to pay manually? Paybill <b>${esc(o.paybill)}</b>, account <b>${esc(o.account)}</b>, then WhatsApp us the M-Pesa code.</p>`;
+      }
+      return head + `<p><b>Good news — it's in stock!</b> Please complete payment with M-Pesa:</p>
+        <div class="paybox">
+          <div>1. Go to <b>Lipa na M-Pesa → Pay Bill</b></div>
+          <div>2. Business number: <span class="big">${esc(o.paybill)}</span></div>
+          <div>3. Account number: <span class="big">${esc(o.account)}</span></div>
+          <div>4. Amount: <span class="big">KSh ${fmt(o.total)}</span></div>
+          <div>5. Enter your PIN and send</div>
+        </div>${itemBox(o)}
+        <p>Then send us your M-Pesa confirmation code with order number <b>${esc(o.orderNo)}</b>.</p>
+        <a class="btn btn-primary" href="${wa(o, `Hi Andistride, I've paid for order ${o.orderNo} (KSh ${fmt(o.total)}). M-Pesa code: `)}">Send M-Pesa code on WhatsApp</a>`;
+    case 'PENDING':
+      return head + `<p><b>Check your phone.</b> Enter your M-Pesa PIN to pay KSh ${fmt(o.total)}. This page updates once payment is received.</p>${itemBox(o)}`;
+    case 'PAID':
+      return head + `<p><b>Payment received — thank you!</b> We're packing your order and will send it by matatu parcel to ${esc(o.town)}.</p>${itemBox(o)}`;
+    case 'DISPATCHED':
+      return head + `<p><b>Your order is on the way</b> to ${esc(o.town)}. We've sent the parcel details on WhatsApp.</p>${o.note ? `<div class="paybox">${esc(o.note)}</div>` : ''}${itemBox(o)}`;
+    case 'DELIVERED':
+      return head + `<p><b>Delivered.</b> Thank you for shopping with Andistride!</p>${itemBox(o)}<a class="btn btn-primary" href="/#shop">Shop again</a>`;
+    case 'CANCELLED':
+      return head + `<p><b>This order was cancelled.</b></p>${o.note ? `<div class="paybox">${esc(o.note)}</div>` : ''}${itemBox(o)}<a class="btn btn-primary" href="/#shop">Back to shop</a>`;
+    default:
+      return head + itemBox(o);
+  }
+}
+
+async function refresh() {
+  if (paying) return;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error();
+    const o = await r.json();
+    document.getElementById('main').innerHTML = view(o);
+    const pay = document.getElementById('pay');
+    if (pay) pay.onclick = async () => {
+      paying = true; pay.disabled = true;
+      const res = await fetch(`/api/orders/${encodeURIComponent(no)}/pay?k=${encodeURIComponent(k)}`, { method: 'POST' });
+      const d = await res.json().catch(() => ({}));
+      paying = false;
+      if (!res.ok) { pay.disabled = false; const e = document.getElementById('payErr'); e.textContent = d.error || 'Something went wrong.'; e.hidden = false; return; }
+      refresh();
+    };
+    clearTimeout(timer);
+    if (!['DELIVERED', 'CANCELLED', 'UNAVAILABLE'].includes(o.status)) timer = setTimeout(refresh, o.status === 'PENDING' ? 4000 : 15000);
+  } catch (e) {
+    document.getElementById('main').innerHTML = '<h1>Order not found</h1><p>Please check your link, or WhatsApp us on +254 754 144 378.</p>';
+  }
+}
+refresh();
+</script>
+</body>
+</html>

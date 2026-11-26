@@ -98,25 +98,17 @@ app.post('/api/order', async (req, res) => {
     const db = load();
     const orderNo = newOrderNo(db);
     const order = {
-      orderNo, status: 'AWAITING_PAYMENT', mode: PAYMENT_MODE, createdAt: new Date().toISOString(),
+      orderNo, key: require('crypto').randomBytes(6).toString('hex'),
+      status: 'AWAITING_CONFIRMATION', mode: PAYMENT_MODE, createdAt: new Date().toISOString(),
       customer: { name: String(name).trim(), phone: msisdn, town, stage: String(stage).slice(0, 80) },
       item: { code, name: product.name, size: s, qty: q, unitPrice: unit },
       deliveryFee, total,
     };
 
-    if (PAYMENT_MODE === 'stk') {
-      order.chargedAmount = TEST_AMOUNT ? Number(TEST_AMOUNT) : total;
-      const push = await stkPush({ phone: msisdn, amount: order.chargedAmount, orderNo });
-      order.checkoutRequestId = push.CheckoutRequestID;
-      order.status = 'PENDING';
-    }
     db[orderNo] = order;
     save(db);
     console.log(`New order ${orderNo}: ${product.name} size ${s} x${q} → ${town}, KSh ${total} (${PAYMENT_MODE})`);
-    res.json({
-      orderNo, total, mode: PAYMENT_MODE,
-      paybill: cat.business.paybill, account: cat.business.account,
-    });
+    res.json({ orderNo, key: order.key, total });
   } catch (err) {
     console.error(err);
     res.status(502).json({ error: 'Could not place the order. Please try again or WhatsApp us.' });
@@ -145,10 +137,39 @@ app.post('/api/mpesa/callback', (req, res) => {
   save(db);
 });
 
-app.get('/api/orders/:orderNo/status', (req, res) => {
+// Customer's private order page (needs the order's key)
+function customerOrder(req) {
   const o = load()[req.params.orderNo];
-  if (!o) return res.status(404).json({ error: 'Not found' });
-  res.json({ orderNo: o.orderNo, status: o.status, failReason: o.failReason || null });
+  return o && o.key && req.query.k === o.key ? o : null;
+}
+app.get('/api/orders/:orderNo', (req, res) => {
+  const o = customerOrder(req);
+  if (!o) return res.status(404).json({ error: 'Order not found' });
+  const cat = catalogue();
+  const product = cat.products.find((p) => p.code === o.item.code);
+  res.json({
+    orderNo: o.orderNo, status: o.status, mode: PAYMENT_MODE === 'stk' ? 'stk' : 'manual',
+    item: o.item, image: product ? product.image : null, town: o.customer.town, name: o.customer.name,
+    deliveryFee: o.deliveryFee, total: o.total, note: o.note || null, failReason: o.failReason || null,
+    paybill: cat.business.paybill, account: cat.business.account, whatsapp: cat.business.whatsapp,
+  });
+});
+app.post('/api/orders/:orderNo/pay', async (req, res) => {
+  const o = customerOrder(req);
+  if (!o) return res.status(404).json({ error: 'Order not found' });
+  if (PAYMENT_MODE !== 'stk') return res.status(400).json({ error: 'Pay using the paybill details shown.' });
+  if (!['AWAITING_PAYMENT', 'FAILED'].includes(o.status)) return res.status(400).json({ error: 'This order is not ready for payment.' });
+  try {
+    o.chargedAmount = TEST_AMOUNT ? Number(TEST_AMOUNT) : o.total;
+    const push = await stkPush({ phone: o.customer.phone, amount: o.chargedAmount, orderNo: o.orderNo });
+    const db = load();
+    db[o.orderNo] = { ...db[o.orderNo], status: 'PENDING', chargedAmount: o.chargedAmount, checkoutRequestId: push.CheckoutRequestID, failReason: null };
+    save(db);
+    res.json({ status: 'PENDING' });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({ error: 'Could not send the M-Pesa prompt. Please try again.' });
+  }
 });
 
 // Admin: list orders and update their status
@@ -157,7 +178,7 @@ const isAdmin = (req) => {
   const q = typeof req.query.token === 'string' ? req.query.token.replace(/ /g, '+') : '';
   return q === ADMIN_TOKEN || req.get('x-admin-token') === ADMIN_TOKEN;
 };
-const STATUSES = ['AWAITING_PAYMENT', 'PENDING', 'PAID', 'DISPATCHED', 'DELIVERED', 'CANCELLED', 'FAILED', 'AMOUNT_MISMATCH'];
+const STATUSES = ['AWAITING_CONFIRMATION', 'UNAVAILABLE', 'AWAITING_PAYMENT', 'PENDING', 'PAID', 'DISPATCHED', 'DELIVERED', 'CANCELLED', 'FAILED', 'AMOUNT_MISMATCH'];
 app.get('/api/admin/orders', (req, res) => {
   if (!isAdmin(req)) return res.sendStatus(401);
   const orders = Object.values(load()).sort((a, b) => b.createdAt.localeCompare(a.createdAt));

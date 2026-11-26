@@ -20,6 +20,8 @@
 .order-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}
 .order-top b{font:700 18px Lexend,sans-serif}
 .st{font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;letter-spacing:.5px}
+.st-AWAITING_CONFIRMATION{background:#EDE7FB;color:#4B2C8F}
+.st-UNAVAILABLE{background:#EEF1F4;color:#4A5563}
 .st-AWAITING_PAYMENT,.st-PENDING{background:#FFF1E0;color:#8A4B00}
 .st-PAID{background:#E3F4E8;color:#1D6B36}
 .st-DISPATCHED{background:#E3EFFB;color:#164F7D}
@@ -71,8 +73,8 @@ td.n,th.n{text-align:right}
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => Number(n || 0).toLocaleString('en-KE');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-const LABEL = { AWAITING_PAYMENT: 'Awaiting payment', PENDING: 'Prompt sent', PAID: 'Paid', DISPATCHED: 'Dispatched', DELIVERED: 'Delivered', CANCELLED: 'Cancelled', FAILED: 'Payment failed', AMOUNT_MISMATCH: 'Amount mismatch' };
-const FILTERS = [['ALL', 'All'], ['UNPAID', 'Awaiting payment'], ['PAID', 'Paid – to dispatch'], ['DISPATCHED', 'Dispatched'], ['DELIVERED', 'Delivered'], ['CANCELLED', 'Cancelled']];
+const LABEL = { AWAITING_CONFIRMATION: 'To confirm', UNAVAILABLE: 'Not available', AWAITING_PAYMENT: 'Awaiting payment', PENDING: 'Prompt sent', PAID: 'Paid', DISPATCHED: 'Dispatched', DELIVERED: 'Delivered', CANCELLED: 'Cancelled', FAILED: 'Payment failed', AMOUNT_MISMATCH: 'Amount mismatch' };
+const FILTERS = [['ALL', 'All'], ['AWAITING_CONFIRMATION', 'To confirm'], ['UNPAID', 'Awaiting payment'], ['PAID', 'Paid – to dispatch'], ['DISPATCHED', 'Dispatched'], ['DELIVERED', 'Delivered'], ['CANCELLED', 'Cancelled'], ['UNAVAILABLE', 'Not available']];
 let token = '';
 try { token = localStorage.getItem('andistrideAdmin') || ''; } catch (e) {}
 let orders = [], filter = 'ALL', q = '';
@@ -112,6 +114,7 @@ function matches(o) {
 function render() {
   const paid = orders.filter((o) => ['PAID', 'DISPATCHED', 'DELIVERED'].includes(o.status));
   $('stats').innerHTML = [
+    [orders.filter((o) => o.status === 'AWAITING_CONFIRMATION').length, 'To confirm'],
     [orders.filter((o) => ['AWAITING_PAYMENT', 'PENDING'].includes(o.status)).length, 'Awaiting payment'],
     [orders.filter((o) => o.status === 'PAID').length, 'To dispatch'],
     [paid.length, 'Paid orders'],
@@ -127,10 +130,11 @@ function card(o) {
   const wa = `https://wa.me/${c.phone}?text=${encodeURIComponent(`Hi ${c.name}, this is Andistride about order ${o.orderNo}. `)}`;
   const btn = (status, label, cls = 'btn-outline') => `<button type="button" class="btn ${cls}" data-act="${status}" data-no="${o.orderNo}">${label}</button>`;
   let acts = '';
+  if (o.status === 'AWAITING_CONFIRMATION') acts += btn('AWAITING_PAYMENT', 'Confirm – in stock', 'btn-primary') + btn('UNAVAILABLE', 'Not available');
   if (['AWAITING_PAYMENT', 'PENDING', 'FAILED', 'AMOUNT_MISMATCH'].includes(o.status)) acts += btn('PAID', 'Mark paid', 'btn-primary') + btn('CANCELLED', 'Cancel');
   if (o.status === 'PAID') acts += btn('DISPATCHED', 'Mark dispatched', 'btn-primary') + btn('ETIMS', o.etimsNo ? 'Edit eTIMS no.' : 'Add eTIMS no.');
   if (o.status === 'DISPATCHED') acts += btn('DELIVERED', 'Mark delivered', 'btn-primary') + btn('ETIMS', o.etimsNo ? 'Edit eTIMS no.' : 'Add eTIMS no.');
-  if (o.status === 'CANCELLED') acts += btn('AWAITING_PAYMENT', 'Reopen');
+  if (['CANCELLED', 'UNAVAILABLE'].includes(o.status)) acts += btn('AWAITING_CONFIRMATION', 'Reopen');
   acts += `<a class="btn btn-outline" href="${wa}">WhatsApp</a><a class="btn btn-outline" href="tel:+${c.phone}">Call</a>`;
   const rows = o.etims.lines.map((l) => `<tr><td>${esc(l.item)}</td><td class="n">${l.qty}</td><td class="n">${fmt(l.net)}</td><td class="n">${fmt(l.vat)}</td><td class="n">${fmt(l.gross)}</td></tr>`).join('');
   return `<article class="order">
@@ -141,6 +145,7 @@ function card(o) {
       <div>Deliver to <strong>${esc(c.town)}</strong>${c.stage ? ' · ' + esc(c.stage) : ''}</div>
       <div>Total <strong>KSh ${fmt(o.total)}</strong> (incl. delivery KSh ${fmt(o.deliveryFee)}) · ${esc(when)}</div>
       ${o.mpesaReceipt ? `<div>M-Pesa code: <strong>${esc(o.mpesaReceipt)}</strong></div>` : ''}
+      ${o.note ? `<div>Note: ${esc(o.note)}</div>` : ''}
       ${o.etimsNo ? `<div>eTIMS invoice: <strong>${esc(o.etimsNo)}</strong></div>` : ''}
     </div>
     <div class="actions">${acts}</div>
@@ -162,10 +167,25 @@ $('orders').addEventListener('click', async (e) => {
     if (n === null) return; body.etimsNo = n.trim();
   }
   if (act === 'CANCELLED' && !confirm(`Cancel order ${no}?`)) return;
+  if (act === 'UNAVAILABLE' || act === 'DISPATCHED') {
+    const n = prompt(act === 'UNAVAILABLE'
+      ? `Message for the customer (e.g. "Size ${o.item.size} is out of stock — size ${o.item.size + 1} is available"):`
+      : 'Parcel details (sacco, parcel/receipt no., expected arrival):', '');
+    if (n === null) return; body.note = n.trim();
+  }
   b.disabled = true;
   try {
     const updated = await api(`/api/admin/orders/${encodeURIComponent(no)}/status`, { method: 'POST', body: JSON.stringify(body) });
     orders = orders.map((x) => (x.orderNo === no ? updated : x)); render();
+    const link = `${location.origin}/order?no=${encodeURIComponent(no)}&k=${encodeURIComponent(updated.key || '')}`;
+    const msgs = {
+      AWAITING_PAYMENT: `Hi ${updated.customer.name}, your Andistride order ${no} (${updated.item.name}, size ${updated.item.size}) is confirmed in stock. Total KSh ${fmt(updated.total)}. Pay here: ${link}`,
+      UNAVAILABLE: `Hi ${updated.customer.name}, sorry — your Andistride order ${no} (${updated.item.name}, size ${updated.item.size}) isn't available. ${updated.note || ''} Details: ${link}`,
+      DISPATCHED: `Hi ${updated.customer.name}, your Andistride order ${no} has been dispatched to ${updated.customer.town}. ${updated.note || ''} Track: ${link}`,
+    };
+    if (msgs[act] && confirm('Open WhatsApp to message the customer?')) {
+      location.href = `https://wa.me/${updated.customer.phone}?text=${encodeURIComponent(msgs[act])}`;
+    }
   } catch (err) { alert(err.message); b.disabled = false; }
 });
 

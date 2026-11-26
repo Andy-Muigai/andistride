@@ -19,6 +19,11 @@ Commit the change → Render redeploys automatically in a minute or two.
 - `PAYMENT_MODE=stk` (once you have your own Safaricom paybill and Daraja go-live):
   automatic M-Pesa prompt. Fill the `MPESA_*` variables.
 
+## Order flow
+1. Customer places an order → status **To confirm**; they see a private order page (`/order?no=…&k=…`) saying "we're checking stock, don't pay yet".
+2. You check stock in **/admin** → **Confirm – in stock** (customer's page shows paybill details; WhatsApp opens with a message and their link) or **Not available** (add a note, e.g. another size).
+3. Customer pays → **Mark paid** (M-Pesa code) → **Mark dispatched** (parcel details) → **Mark delivered**. Their page updates at each step.
+
 ## Orders and eTIMS
 Open **/admin** on your site and log in with your `ADMIN_TOKEN`: see orders, mark them paid (with the M-Pesa code), dispatched or delivered, save the eTIMS invoice number, and WhatsApp or call the customer.
 
