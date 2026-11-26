@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: andistride
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PAYMENT_MODE
+        value: manual
+      - key: ADMIN_TOKEN
+        generateValue: true

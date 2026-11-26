@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — Andistride by Andifusion</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/images/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/images/logo.jpg" alt="Andifusion logo"><span><b>ANDISTRIDE</b><small>BY ANDIFUSION</small></span></a>
+    <nav class="nav"><a href="/#shop">← Back to shop</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Order form -->
+  <form id="form" novalidate>
+    <h1 style="margin:32px 0 0;font-size:clamp(30px,4vw,40px)">Checkout</h1>
+    <div class="checkout">
+      <div class="checkout-main">
+        <section class="panel"><h2>1. Choose a style</h2><div class="styles" id="styles"></div></section>
+
+        <section class="panel">
+          <h2>2. Pick a size</h2>
+          <p class="hint" id="bandHint"></p>
+          <div class="sizes-row" role="group" aria-label="Shoe size" id="sizes"></div>
+          <div class="qty"><span style="font-weight:600">Quantity</span>
+            <button type="button" id="dec" aria-label="Decrease quantity">−</button>
+            <output id="qty">1</output>
+            <button type="button" id="inc" aria-label="Increase quantity">+</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>3. Delivery details</h2>
+          <p class="hint">We send by matatu parcel to all major towns, usually within 1–2 days. You collect from the sacco office in your town. Nairobi orders come by rider.</p>
+          <div class="fields">
+            <label>Full name<input id="name" autocomplete="name" placeholder="e.g. Jane Wanjiku" required></label>
+            <label>Town<select id="town"></select></label>
+            <label class="wide">Preferred matatu sacco or pick-up stage (optional)<input id="stage" maxlength="80" placeholder="e.g. 2NK, Mololine, Easy Coach"></label>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>4. Your M-Pesa number</h2>
+          <div class="fields"><label>Phone number<input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="07XX XXX XXX" required></label></div>
+          <p class="hint" style="margin:12px 0 0" id="payHint"></p>
+        </section>
+      </div>
+
+      <aside class="panel summary" aria-label="Order summary">
+        <h2 style="margin:0">Order summary</h2>
+        <div class="sum-product"><img id="sumImg" alt=""><div><b id="sumName" class="display"></b><div style="font-size:13px;color:var(--muted)">Code <span id="sumCode"></span></div><span class="badge" id="sumLimited" hidden>Limited stock</span></div></div>
+        <div class="rows">
+          <div><span>Size</span><b id="sumSize">Not chosen</b></div>
+          <div><span>Price each</span><b id="sumUnit">—</b></div>
+          <div><span>Quantity</span><b id="sumQty">1</b></div>
+          <div><span>Delivery to <span id="sumTown"></span></span><b id="sumFee"></b></div>
+        </div>
+        <div class="total"><span style="font-weight:600">Total</span><b>KSh <span id="sumTotal">0</span></b></div>
+        <p class="error" id="error" role="alert" hidden></p>
+        <button class="btn btn-primary" type="submit" id="submit" style="font-size:17px;padding:17px 24px">Place order</button>
+        <a href="https://wa.me/254754144378" style="text-align:center;font-size:14px;font-weight:600">Questions? WhatsApp +254 754 144 378</a>
+      </aside>
+    </div>
+  </form>
+
+  <!-- Manual paybill instructions -->
+  <section class="done" id="manualDone" hidden>
+    <h1>Order <span class="orderNo"></span> received</h1>
+    <p>Complete payment with M-Pesa:</p>
+    <div class="paybox">
+      <div>1. Go to <b>Lipa na M-Pesa → Pay Bill</b></div>
+      <div>2. Business number: <span class="big" id="mPaybill"></span></div>
+      <div>3. Account number: <span class="big" id="mAccount"></span></div>
+      <div>4. Amount: <span class="big">KSh <span class="totalText"></span></span></div>
+      <div>5. Enter your PIN and send</div>
+    </div>
+    <p>Then send us your M-Pesa confirmation code and order number <b class="orderNo"></b> on WhatsApp. We'll confirm and dispatch.</p>
+    <a class="btn btn-primary" id="waConfirm" href="#">Send M-Pesa code on WhatsApp</a>
+  </section>
+
+  <!-- STK push waiting / result -->
+  <section class="done" id="stkDone" hidden>
+    <h1 id="stkTitle">Check your phone</h1>
+    <p id="stkText"></p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+      <button class="btn btn-outline" type="button" id="retry" hidden>Try again</button>
+      <a class="btn btn-primary" href="https://wa.me/254754144378">Get help on WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => Number(n).toLocaleString('en-KE');
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+let cat, product, size = null, qty = 1;
+
+fetch('/api/catalogue').then((r) => r.json()).then((c) => {
+  cat = c;
+  const available = cat.products.filter((p) => p.inStock);
+  const wanted = new URLSearchParams(location.search).get('style');
+  product = available.find((p) => p.code === wanted) || available[0];
+  $('bandHint').textContent = cat.priceBands.map((b) => `${b.min}–${b.max}: KSh ${fmt(b.price)}`).join(' · ');
+  $('town').innerHTML = Object.keys(cat.delivery).map((t) => `<option>${esc(t)}</option>`).join('');
+  $('payHint').textContent = cat.paymentMode === 'stk'
+    ? "You'll get an M-Pesa prompt on this phone. Enter your PIN to pay — we never see it."
+    : "After you place the order we'll show you our paybill details to pay from this number.";
+  $('submit').textContent = cat.paymentMode === 'stk' ? 'Pay with M-Pesa' : 'Place order';
+  renderStyles(available); renderSizes(); update();
+});
+
+function renderStyles(list) {
+  $('styles').innerHTML = list.map((p) => `
+    <button type="button" class="style-tile" data-code="${esc(p.code)}" aria-pressed="${p.code === product.code}">
+      <img src="${esc(p.image)}" alt=""><span>${esc(p.name)}</span></button>`).join('');
+}
+function renderSizes() {
+  let html = '';
+  for (let n = product.minSize; n <= product.maxSize; n++) {
+    const out = product.soldOutSizes.includes(n);
+    html += `<button type="button" class="size" data-size="${n}" aria-pressed="${n === size}" ${out ? 'disabled aria-label="Size ' + n + ' sold out"' : ''}>${n}</button>`;
+  }
+  $('sizes').innerHTML = html;
+}
+const priceFor = (n) => (cat.priceBands.find((b) => n >= b.min && n <= b.max) || {}).price;
+function update() {
+  const fee = cat.delivery[$('town').value];
+  const unit = size ? priceFor(size) : 0;
+  $('sumImg').src = product.image; $('sumImg').alt = product.name;
+  $('sumName').textContent = product.name; $('sumCode').textContent = product.code;
+  $('sumLimited').hidden = !product.limited;
+  $('sumSize').textContent = size || 'Not chosen';
+  $('sumUnit').textContent = size ? 'KSh ' + fmt(unit) : '—';
+  $('sumQty').textContent = qty; $('qty').textContent = qty;
+  $('sumTown').textContent = $('town').value; $('sumFee').textContent = 'KSh ' + fmt(fee);
+  $('sumTotal').textContent = fmt(size ? unit * qty + fee : 0);
+}
+
+$('styles').addEventListener('click', (e) => {
+  const t = e.target.closest('[data-code]'); if (!t) return;
+  product = cat.products.find((p) => p.code === t.dataset.code);
+  if (size && (size > product.maxSize || size < product.minSize || product.soldOutSizes.includes(size))) size = null;
+  document.querySelectorAll('.style-tile').forEach((b) => b.setAttribute('aria-pressed', b === t));
+  renderSizes(); update();
+});
+$('sizes').addEventListener('click', (e) => {
+  const t = e.target.closest('[data-size]'); if (!t || t.disabled) return;
+  size = Number(t.dataset.size); renderSizes(); update();
+});
+$('inc').onclick = () => { qty = Math.min(qty + 1, 10); update(); };
+$('dec').onclick = () => { qty = Math.max(qty - 1, 1); update(); };
+$('town').onchange = update;
+
+function showError(msg) { $('error').textContent = msg; $('error').hidden = !msg; }
+
+$('form').addEventListener('submit', async (e) => {
+  e.preventDefault(); showError('');
+  if (!size) return showError('Please pick a size.');
+  if (!$('name').value.trim()) return showError('Please enter your name.');
+  const digits = $('phone').value.replace(/\D/g, '');
+  if (!/^(0[17]\d{8}|254[17]\d{8})$/.test(digits)) return showError('Enter a valid Safaricom number, e.g. 0712 345 678.');
+  $('submit').disabled = true;
+  try {
+    const r = await fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: product.code, size, qty, name: $('name').value, town: $('town').value, stage: $('stage').value, phone: $('phone').value }) });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Something went wrong.');
+    $('form').hidden = true; window.scrollTo(0, 0);
+    document.querySelectorAll('.orderNo').forEach((el) => (el.textContent = data.orderNo));
+    document.querySelectorAll('.totalText').forEach((el) => (el.textContent = fmt(data.total)));
+    if (data.mode === 'stk') return waitForPayment(data);
+    $('mPaybill').textContent = data.paybill; $('mAccount').textContent = data.account;
+    const msg = `Hi Andistride, I've paid for order ${data.orderNo} (KSh ${fmt(data.total)}). M-Pesa code: `;
+    $('waConfirm').href = `https://wa.me/${cat.business.whatsapp}?text=${encodeURIComponent(msg)}`;
+    $('manualDone').hidden = false;
+  } catch (err) {
+    showError(err.message);
+  } finally { $('submit').disabled = false; }
+});
+
+function waitForPayment(data) {
+  $('stkDone').hidden = false;
+  $('stkText').textContent = `We've sent an M-Pesa prompt for KSh ${fmt(data.total)}. Enter your PIN to complete order ${data.orderNo}.`;
+  let tries = 0;
+  const timer = setInterval(async () => {
+    tries++;
+    const s = await fetch(`/api/orders/${data.orderNo}/status`).then((r) => r.json()).catch(() => ({}));
+    if (s.status === 'PAID') {
+      clearInterval(timer);
+      $('stkTitle').textContent = 'Payment received — thank you!';
+      $('stkText').textContent = `Order ${data.orderNo} is confirmed. We'll WhatsApp you the parcel details once it's dispatched.`;
+    } else if (s.status === 'FAILED' || tries > 40) {
+      clearInterval(timer);
+      $('stkTitle').textContent = 'Payment not completed';
+      $('stkText').textContent = `Your M-Pesa payment for order ${data.orderNo} didn't go through. You can try again, or pay manually to Paybill ${cat.business.paybill}, account ${cat.business.account}, and WhatsApp us the code.`;
+      $('retry').hidden = false;
+    }
+  }, 3000);
+}
+$('retry').onclick = () => { $('stkDone').hidden = true; $('retry').hidden = true; $('form').hidden = false; };
+</script>
+</body>
+</html>
