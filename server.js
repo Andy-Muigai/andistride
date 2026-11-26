@@ -151,23 +151,38 @@ app.get('/api/orders/:orderNo/status', (req, res) => {
   res.json({ orderNo: o.orderNo, status: o.status, failReason: o.failReason || null });
 });
 
-// Admin: list orders, mark manual payments as paid
-const isAdmin = (req) => ADMIN_TOKEN && (req.query.token === ADMIN_TOKEN || req.get('x-admin-token') === ADMIN_TOKEN);
+// Admin: list orders and update their status
+const isAdmin = (req) => {
+  if (!ADMIN_TOKEN) return false;
+  const q = typeof req.query.token === 'string' ? req.query.token.replace(/ /g, '+') : '';
+  return q === ADMIN_TOKEN || req.get('x-admin-token') === ADMIN_TOKEN;
+};
+const STATUSES = ['AWAITING_PAYMENT', 'PENDING', 'PAID', 'DISPATCHED', 'DELIVERED', 'CANCELLED', 'FAILED', 'AMOUNT_MISMATCH'];
 app.get('/api/admin/orders', (req, res) => {
   if (!isAdmin(req)) return res.sendStatus(401);
   const orders = Object.values(load()).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   res.json(orders.map((o) => ({ ...o, etims: etimsLines(o) })));
 });
-app.post('/api/admin/orders/:orderNo/paid', (req, res) => {
+app.post('/api/admin/orders/:orderNo/status', (req, res) => {
   if (!isAdmin(req)) return res.sendStatus(401);
+  const { status, mpesaCode, etimsNo, note } = req.body || {};
+  if (!STATUSES.includes(status)) return res.status(400).json({ error: 'Unknown status' });
   const db = load();
   const o = db[req.params.orderNo];
   if (!o) return res.sendStatus(404);
-  o.status = 'PAID';
-  o.mpesaReceipt = String(req.body?.mpesaCode || '').toUpperCase();
-  o.paidAt = new Date().toISOString();
+  o.status = status;
+  if (mpesaCode) o.mpesaReceipt = String(mpesaCode).toUpperCase().slice(0, 20);
+  if (etimsNo !== undefined) o.etimsNo = String(etimsNo).slice(0, 40);
+  if (note !== undefined) o.note = String(note).slice(0, 200);
+  o[status.toLowerCase() + 'At'] = new Date().toISOString();
   save(db);
   res.json({ ...o, etims: etimsLines(o) });
+});
+// Kept for older links
+app.post('/api/admin/orders/:orderNo/paid', (req, res) => {
+  req.body = { ...(req.body || {}), status: 'PAID' };
+  req.url = `/api/admin/orders/${req.params.orderNo}/status`;
+  app.handle(req, res);
 });
 
 function etimsLines(o) {

@@ -20,7 +20,9 @@ Commit the change → Render redeploys automatically in a minute or two.
   automatic M-Pesa prompt. Fill the `MPESA_*` variables.
 
 ## Orders and eTIMS
-`/api/admin/orders?token=YOUR_ADMIN_TOKEN` lists orders with the net / VAT / gross
+Open **/admin** on your site and log in with your `ADMIN_TOKEN`: see orders, mark them paid (with the M-Pesa code), dispatched or delivered, save the eTIMS invoice number, and WhatsApp or call the customer.
+
+Raw data: `/api/admin/orders?token=YOUR_ADMIN_TOKEN` lists orders with the net / VAT / gross
 lines to enter in the free KRA eTIMS app.
 Mark a manual payment as paid:
 `curl -X POST "https://YOUR-SITE/api/admin/orders/AND-12345/paid?token=TOKEN" -H "Content-Type: application/json" -d '{"mpesaCode":"SKX12ABC34"}'`
