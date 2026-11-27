@@ -66,12 +66,12 @@
       "soldOutSizes": []
     },
     {
-      "code": "618509",
+      "code": "618106",
       "name": "Lightweight Lace-Up (EVA)",
       "category": "Boys",
       "image": "/images/618509.jpg",
-      "minSize": 27,
-      "maxSize": 30,
+      "minSize": 31,
+      "maxSize": 36,
       "inStock": true,
       "limited": false,
       "soldOutSizes": []
