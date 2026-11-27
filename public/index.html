@@ -20,6 +20,7 @@
     <nav class="nav">
       <a href="#shop">Shop shoes</a>
       <a href="#sizes">Sizes &amp; prices</a>
+      <a href="#toys">Toys</a>
       <a href="#visit">Our shop</a>
       <a href="https://www.instagram.com/andifusion_ltd">Instagram</a>
       <a class="btn btn-primary" href="/checkout">Order now</a>
@@ -86,10 +87,27 @@
   </div>
 </section>
 
+<section class="block quality" aria-labelledby="quality-title">
+  <div class="wrap">
+    <div class="section-head"><div><h2 id="quality-title">See the Crabkids quality</h2><p>Real leather, strong grip and a perfectly matched pair — watch the tests.</p></div></div>
+    <div class="videos">
+      <figure><video controls playsinline preload="none" poster="/videos/crabkids-weight-test.jpg"><source src="/videos/crabkids-weight-test.mp4" type="video/mp4"></video><figcaption>Balance test: both shoes weigh the same</figcaption></figure>
+      <figure><video controls playsinline preload="none" poster="/videos/crabkids-quality-test.jpg"><source src="/videos/crabkids-quality-test.mp4" type="video/mp4"></video><figcaption>Leather, grip and water tests</figcaption></figure>
+    </div>
+  </div>
+</section>
+
 <section class="block" id="sizes" style="padding-top:0">
   <div class="wrap">
     <div class="section-head"><div><h2>Sizes &amp; prices</h2><p>One price per size band for every Crabkids style, sports shoes included. Measure from heel to longest toe — not sure? Send us the length and we'll match it.</p></div></div>
     <div class="bands" id="bands"></div>
+  </div>
+</section>
+
+<section class="block toys" id="toys" aria-labelledby="toys-title">
+  <div class="wrap">
+    <div class="section-head"><div><h2 id="toys-title">Toys</h2><p>Dolls, board games, puzzles and cars from our shop. Ask us on WhatsApp for prices and more toys.</p></div></div>
+    <div class="grid" id="toyGrid"></div>
   </div>
 </section>
 
@@ -103,6 +121,11 @@
         <a class="btn btn-primary" href="https://maps.app.goo.gl/C7Xqu3ABF1wVzuD66">Get directions</a>
         <a class="btn btn-outline" href="https://wa.me/254754144378">WhatsApp before you come</a>
       </div>
+    </div>
+    <div class="gallery" aria-label="Inside our shop">
+      <img src="/images/shop/shop-shoe-display.jpg" alt="Crabkids school shoes on display in our shop" loading="lazy">
+      <img src="/images/shop/shop-crabkids-poster.jpg" alt="Crabkids Back To School poster at our shop" loading="lazy">
+      <video controls playsinline muted preload="none" poster="/videos/toy-shop-reel.jpg" aria-label="Walk through our toy shelves"><source src="/videos/toy-shop-reel.mp4" type="video/mp4"></video>
     </div>
     <div class="map">
       <iframe title="Map to Jehovah Jaira Kids Store" src="https://www.google.com/maps?q=0.515903,35.275369&amp;z=17&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -173,6 +196,21 @@ fetch('/api/catalogue').then((r) => r.json()).then((cat) => {
   document.getElementById('bands').innerHTML = cat.priceBands.map((b) => `
     <div class="band"><div class="range">${b.min} – ${b.max}</div><div class="label">${esc(b.label)}</div>
     <div class="note">${esc(b.note)}</div><div class="bprice">KSh ${fmt(b.price)}</div></div>`).join('');
+  const toys = (cat.toys || []).filter((t) => t.inStock);
+  document.getElementById('toyGrid').innerHTML = toys.map((t) => {
+    const ask = `https://wa.me/${cat.business.whatsapp}?text=${encodeURIComponent(`Hi Andistride, is the ${t.name} available? How much is it?`)}`;
+    return `<article class="card">
+      <img src="${esc(t.image)}" alt="${esc(t.name)}" loading="lazy">
+      <div class="card-body">
+        <span class="tag">${esc(t.brand)} · Ages ${esc(t.age)}</span>
+        <h3>${esc(t.name)}</h3>
+        <div class="card-foot">
+          <span class="price">${t.price ? 'KSh ' + fmt(t.price) : 'Price on request'}</span>
+          <a class="btn btn-primary" href="${ask}">Ask on WhatsApp</a>
+        </div>
+      </div>
+    </article>`;
+  }).join('') || '<p>New toys coming soon.</p>';
 }).catch(() => { document.getElementById('grid').innerHTML = '<p>Could not load shoes. Please refresh or WhatsApp us.</p>'; });
 </script>
 </body>

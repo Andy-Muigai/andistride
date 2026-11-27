@@ -13,6 +13,9 @@ Everything lives in **`data/products.json`**:
 
 Commit the change → Render redeploys automatically in a minute or two.
 
+## Toys
+`toys` in `data/products.json`: `name`, `brand`, `age`, `image` (in `public/images/toys/`), `price` (`null` = "Price on request"), `inStock`. Toys are ordered via WhatsApp for now.
+
 ## Payments
 - `PAYMENT_MODE=manual` (now): customer gets NCBA Paybill 880100 / Account 849292 and
   a WhatsApp button to send you the M-Pesa code.

@@ -287,5 +287,52 @@
       "name": "Collect from our shop",
       "note": "Free. Pick up at Jehovah Jaira Kids Store — we'll WhatsApp you when it's ready."
     }
+  ],
+  "toys": [
+    {
+      "id": "barbie-fashionistas-185",
+      "name": "Barbie Fashionistas Doll #185",
+      "brand": "Barbie",
+      "age": "3+",
+      "image": "/images/toys/barbie-fashionistas-185.jpg",
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "barbie-bubble-wand",
+      "name": "Barbie Bubble Wand Fan",
+      "brand": "Barbie",
+      "age": "3+",
+      "image": "/images/toys/barbie-bubble-wand.jpg",
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "monopoly-junior",
+      "name": "Monopoly Junior (2–4 players)",
+      "brand": "Hasbro Gaming",
+      "age": "5+",
+      "image": "/images/toys/monopoly-junior.jpg",
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "ravensburger-lion-king-2x24",
+      "name": "Lion King Puzzle, 2 × 24 pieces",
+      "brand": "Ravensburger",
+      "age": "4+",
+      "image": "/images/toys/ravensburger-lion-king-2x24.jpg",
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "matchbox-3-pack-emergency",
+      "name": "Matchbox 3-Pack Emergency Vehicles",
+      "brand": "Matchbox",
+      "age": "3+",
+      "image": "/images/toys/matchbox-3-pack-emergency.jpg",
+      "price": null,
+      "inStock": true
+    }
   ]
 }
