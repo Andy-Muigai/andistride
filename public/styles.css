@@ -130,3 +130,13 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid 
   .nav a{padding:10px 6px}
   .summary{position:static}
 }
+/* new stock poster */
+.new-stock{background:var(--pale)}
+.new-stock .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:36px}
+.new-stock .poster{flex:1 1 300px;max-width:440px;display:block}
+.new-stock .poster img{width:100%;border-radius:20px;box-shadow:0 10px 30px rgba(14,42,68,.15)}
+.new-stock-text{flex:1 1 340px;display:flex;flex-direction:column;gap:14px}
+.new-stock-text h2{margin:0;font-size:clamp(28px,4vw,38px);font-weight:800}
+.new-stock-text p{margin:0;font-size:17px;line-height:1.6;color:#2E4A60}
+.new-stock-text ol{margin:0;padding-left:22px;font-size:16px;line-height:1.9}
+.new-stock .pill{background:#fff}
