@@ -106,7 +106,8 @@
 
 <section class="block toys" id="toys" aria-labelledby="toys-title">
   <div class="wrap">
-    <div class="section-head"><div><h2 id="toys-title">Toys</h2><p>Branded toys from LEGO, Barbie, Hot Wheels, Nerf and more. Order or ask for prices on WhatsApp.</p></div></div>
+    <div class="section-head"><div><h2 id="toys-title">Toys</h2><p>Branded toys from LEGO, Barbie, Hot Wheels, Nerf and more. Order on WhatsApp.</p>
+      <p class="avail-note"><b>Subject to availability.</b> Many toys are single pieces, so we'll confirm stock on WhatsApp before you pay.</p></div></div>
     <div class="filters" role="group" aria-label="Filter toys" id="toyFilters" style="margin-bottom:18px"></div>
     <div class="grid" id="toyGrid"></div>
   </div>
@@ -205,7 +206,7 @@ fetch('/api/catalogue').then((r) => r.json()).then((cat) => {
     toyFilters.innerHTML = toyCats.map((c) => `<button type="button" class="chip" aria-pressed="${c === toyActive}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
     const list = toys.filter((t) => toyActive === 'All' || t.category === toyActive);
     document.getElementById('toyGrid').innerHTML = list.map((t) => {
-      const ask = `https://wa.me/${cat.business.whatsapp}?text=${encodeURIComponent(t.price ? `Hi Andistride, I'd like to order the ${t.name} (KSh ${fmt(t.price)}).` : `Hi Andistride, is the ${t.name} available? How much is it?`)}`;
+      const ask = `https://wa.me/${cat.business.whatsapp}?text=${encodeURIComponent(t.price ? `Hi Andistride, I'd like to order the ${t.name} (KSh ${fmt(t.price)}). Is it still available?` : `Hi Andistride, is the ${t.name} available? How much is it?`)}`;
       const pic = t.image
         ? `<img src="${esc(t.image)}" alt="${esc(t.name)}" loading="lazy">`
         : `<div class="toy-ph" role="img" aria-label="Photo coming soon"><b>${esc(t.brand)}</b><span>Photo coming soon</span></div>`;
@@ -213,9 +214,10 @@ fetch('/api/catalogue').then((r) => r.json()).then((cat) => {
         <div class="card-body">
           <span class="tag">${esc(t.brand)}${t.age ? ' · Ages ' + esc(t.age) : ''}</span>
           <h3>${esc(t.name)}</h3>
+          ${t.limited ? '<span class="badge">Limited stock</span>' : ''}
           <div class="card-foot">
             <span class="price">${t.price ? 'KSh ' + fmt(t.price) : 'Price on request'}</span>
-            <a class="btn btn-primary" href="${ask}">${t.price ? 'Order on WhatsApp' : 'Ask on WhatsApp'}</a>
+            <a class="btn btn-primary" href="${ask}">${t.price ? 'Order' : 'Ask'}</a>
           </div>
         </div>
       </article>`;

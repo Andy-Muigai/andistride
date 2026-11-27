@@ -296,8 +296,9 @@
       "category": "Building sets",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1050,
+      "inStock": true,
+      "limited": false
     },
     {
       "id": "lego-duplo-crafting-with-baby",
@@ -306,8 +307,9 @@
       "category": "Building sets",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 3750,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "lego-duplo-police-bike",
@@ -316,8 +318,9 @@
       "category": "Building sets",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 2300,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "lego-moanas-island-fun",
@@ -326,8 +329,9 @@
       "category": "Building sets",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 4500,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "lego-f1-driver-mclaren",
@@ -336,8 +340,9 @@
       "category": "Building sets",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 2850,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "lego-nissan-skyline-gtr-r34",
@@ -346,8 +351,9 @@
       "category": "Building sets",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 6900,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "barbie-fashionistas-185",
@@ -357,7 +363,8 @@
       "age": "3+",
       "image": "/images/toys/barbie-fashionistas-185.jpg",
       "price": 3300,
-      "inStock": true
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "barbie-dreamtopia-princess",
@@ -366,8 +373,9 @@
       "category": "Dolls",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 3500,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "monopoly-junior",
@@ -376,8 +384,9 @@
       "category": "Games & puzzles",
       "age": "5+",
       "image": "/images/toys/monopoly-junior.jpg",
-      "price": null,
-      "inStock": true
+      "price": 4250,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "ravensburger-lion-king-2x24",
@@ -387,7 +396,8 @@
       "age": "4+",
       "image": "/images/toys/ravensburger-lion-king-2x24.jpg",
       "price": 2000,
-      "inStock": true
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "clementoni-frozen-2-2x20",
@@ -396,8 +406,9 @@
       "category": "Games & puzzles",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1600,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "play-doh-mini-bucket",
@@ -406,8 +417,9 @@
       "category": "Creative & outdoor",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1750,
+      "inStock": true,
+      "limited": false
     },
     {
       "id": "barbie-bubble-wand",
@@ -416,8 +428,9 @@
       "category": "Creative & outdoor",
       "age": "3+",
       "image": "/images/toys/barbie-bubble-wand.jpg",
-      "price": null,
-      "inStock": true
+      "price": 1450,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "super-soaker-raptor-surge",
@@ -426,8 +439,9 @@
       "category": "Creative & outdoor",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 3150,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "nerf-elite-2-duo-target-set",
@@ -436,8 +450,9 @@
       "category": "Creative & outdoor",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1800,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "rc-citroen-ds3-wrc",
@@ -446,8 +461,9 @@
       "category": "Remote control cars",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 4150,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "rc-ford-fiesta-rs-wrc",
@@ -456,8 +472,9 @@
       "category": "Remote control cars",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 4150,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "rc-mercedes-sls-amg-gt",
@@ -466,8 +483,9 @@
       "category": "Remote control cars",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 3650,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "rc-mclaren-570s",
@@ -476,8 +494,9 @@
       "category": "Remote control cars",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 3650,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "rc-audi-r8-coupe",
@@ -486,8 +505,9 @@
       "category": "Remote control cars",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 3650,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "rc-lamborghini-huracan-sto",
@@ -496,8 +516,9 @@
       "category": "Remote control cars",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 4150,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "rc-bugatti-chiron",
@@ -506,8 +527,9 @@
       "category": "Remote control cars",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 4150,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "rc-ferrari-f1-75",
@@ -516,8 +538,9 @@
       "category": "Remote control cars",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 6600,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "matchbox-3-pack-emergency",
@@ -527,7 +550,8 @@
       "age": "3+",
       "image": "/images/toys/matchbox-3-pack-emergency.jpg",
       "price": 1250,
-      "inStock": true
+      "inStock": true,
+      "limited": false
     },
     {
       "id": "diecast-range-rover-sport",
@@ -536,8 +560,9 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1100,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "diecast-bmw-i8",
@@ -546,8 +571,9 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1100,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "diecast-mclaren-p1",
@@ -556,8 +582,9 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1100,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "diecast-lamborghini-sian",
@@ -566,8 +593,9 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1100,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "diecast-bugatti-divo",
@@ -576,8 +604,9 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1100,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "hot-wheels-ejection-plane",
@@ -586,8 +615,9 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1650,
+      "inStock": true,
+      "limited": true
     },
     {
       "id": "hot-wheels-flying-saucer",
@@ -596,8 +626,9 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": null,
-      "price": null,
-      "inStock": true
+      "price": 1500,
+      "inStock": true,
+      "limited": true
     }
   ]
 }

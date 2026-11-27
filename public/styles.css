@@ -176,3 +176,5 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid 
 .toy-ph b{font:800 18px Lexend,sans-serif}
 .toy-ph span{font-size:13px;color:var(--muted)}
 .toys .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.avail-note{margin:10px 0 0;font-size:15px;background:#FFF1E0;color:#6B3A00;border-radius:12px;padding:10px 14px;display:inline-block}
+.toys .card-foot .btn{width:100%;padding:11px 12px}
