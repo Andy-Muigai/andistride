@@ -106,7 +106,8 @@
 
 <section class="block toys" id="toys" aria-labelledby="toys-title">
   <div class="wrap">
-    <div class="section-head"><div><h2 id="toys-title">Toys</h2><p>Dolls, board games, puzzles and cars from our shop. Ask us on WhatsApp for prices and more toys.</p></div></div>
+    <div class="section-head"><div><h2 id="toys-title">Toys</h2><p>Branded toys from LEGO, Barbie, Hot Wheels, Nerf and more. Order or ask for prices on WhatsApp.</p></div></div>
+    <div class="filters" role="group" aria-label="Filter toys" id="toyFilters" style="margin-bottom:18px"></div>
     <div class="grid" id="toyGrid"></div>
   </div>
 </section>
@@ -197,20 +198,31 @@ fetch('/api/catalogue').then((r) => r.json()).then((cat) => {
     <div class="band"><div class="range">${b.min} – ${b.max}</div><div class="label">${esc(b.label)}</div>
     <div class="note">${esc(b.note)}</div><div class="bprice">KSh ${fmt(b.price)}</div></div>`).join('');
   const toys = (cat.toys || []).filter((t) => t.inStock);
-  document.getElementById('toyGrid').innerHTML = toys.map((t) => {
-    const ask = `https://wa.me/${cat.business.whatsapp}?text=${encodeURIComponent(`Hi Andistride, is the ${t.name} available? How much is it?`)}`;
-    return `<article class="card">
-      <img src="${esc(t.image)}" alt="${esc(t.name)}" loading="lazy">
-      <div class="card-body">
-        <span class="tag">${esc(t.brand)} · Ages ${esc(t.age)}</span>
-        <h3>${esc(t.name)}</h3>
-        <div class="card-foot">
-          <span class="price">${t.price ? 'KSh ' + fmt(t.price) : 'Price on request'}</span>
-          <a class="btn btn-primary" href="${ask}">Ask on WhatsApp</a>
+  const toyCats = ['All', ...new Set(toys.map((t) => t.category))];
+  let toyActive = 'All';
+  const toyFilters = document.getElementById('toyFilters');
+  function renderToys() {
+    toyFilters.innerHTML = toyCats.map((c) => `<button type="button" class="chip" aria-pressed="${c === toyActive}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
+    const list = toys.filter((t) => toyActive === 'All' || t.category === toyActive);
+    document.getElementById('toyGrid').innerHTML = list.map((t) => {
+      const ask = `https://wa.me/${cat.business.whatsapp}?text=${encodeURIComponent(t.price ? `Hi Andistride, I'd like to order the ${t.name} (KSh ${fmt(t.price)}).` : `Hi Andistride, is the ${t.name} available? How much is it?`)}`;
+      const pic = t.image
+        ? `<img src="${esc(t.image)}" alt="${esc(t.name)}" loading="lazy">`
+        : `<div class="toy-ph" role="img" aria-label="Photo coming soon"><b>${esc(t.brand)}</b><span>Photo coming soon</span></div>`;
+      return `<article class="card">${pic}
+        <div class="card-body">
+          <span class="tag">${esc(t.brand)}${t.age ? ' · Ages ' + esc(t.age) : ''}</span>
+          <h3>${esc(t.name)}</h3>
+          <div class="card-foot">
+            <span class="price">${t.price ? 'KSh ' + fmt(t.price) : 'Price on request'}</span>
+            <a class="btn btn-primary" href="${ask}">${t.price ? 'Order on WhatsApp' : 'Ask on WhatsApp'}</a>
+          </div>
         </div>
-      </div>
-    </article>`;
-  }).join('') || '<p>New toys coming soon.</p>';
+      </article>`;
+    }).join('') || '<p>New toys coming soon.</p>';
+  }
+  toyFilters.addEventListener('click', (e) => { const c = e.target.closest('[data-c]'); if (c) { toyActive = c.dataset.c; renderToys(); } });
+  renderToys();
 }).catch(() => { document.getElementById('grid').innerHTML = '<p>Could not load shoes. Please refresh or WhatsApp us.</p>'; });
 </script>
 </body>

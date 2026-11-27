@@ -290,20 +290,82 @@
   ],
   "toys": [
     {
+      "id": "lego-police-off-road-buggy",
+      "name": "Police Off-Road Buggy Car",
+      "brand": "LEGO",
+      "category": "Building sets",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "lego-duplo-crafting-with-baby",
+      "name": "Crafting with Baby Box",
+      "brand": "LEGO DUPLO",
+      "category": "Building sets",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "lego-duplo-police-bike",
+      "name": "Police Bike",
+      "brand": "LEGO DUPLO",
+      "category": "Building sets",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "lego-moanas-island-fun",
+      "name": "Moana’s Island Fun (43260)",
+      "brand": "LEGO Disney",
+      "category": "Building sets",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "lego-f1-driver-mclaren",
+      "name": "F1 Driver with McLaren Race Car (60442)",
+      "brand": "LEGO City",
+      "category": "Building sets",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "lego-nissan-skyline-gtr-r34",
+      "name": "2 Fast 2 Furious Nissan Skyline GT-R (R34)",
+      "brand": "LEGO Speed Champions",
+      "category": "Building sets",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
       "id": "barbie-fashionistas-185",
       "name": "Barbie Fashionistas Doll #185",
       "brand": "Barbie",
+      "category": "Dolls",
       "age": "3+",
       "image": "/images/toys/barbie-fashionistas-185.jpg",
       "price": 3300,
       "inStock": true
     },
     {
-      "id": "barbie-bubble-wand",
-      "name": "Barbie Bubble Wand Fan",
+      "id": "barbie-dreamtopia-princess",
+      "name": "Barbie Dreamtopia Princess",
       "brand": "Barbie",
-      "age": "3+",
-      "image": "/images/toys/barbie-bubble-wand.jpg",
+      "category": "Dolls",
+      "age": null,
+      "image": null,
       "price": null,
       "inStock": true
     },
@@ -311,6 +373,7 @@
       "id": "monopoly-junior",
       "name": "Monopoly Junior (2–4 players)",
       "brand": "Hasbro Gaming",
+      "category": "Games & puzzles",
       "age": "5+",
       "image": "/images/toys/monopoly-junior.jpg",
       "price": null,
@@ -320,18 +383,220 @@
       "id": "ravensburger-lion-king-2x24",
       "name": "Lion King Puzzle, 2 × 24 pieces",
       "brand": "Ravensburger",
+      "category": "Games & puzzles",
       "age": "4+",
       "image": "/images/toys/ravensburger-lion-king-2x24.jpg",
       "price": 2000,
       "inStock": true
     },
     {
+      "id": "clementoni-frozen-2-2x20",
+      "name": "Frozen 2 Puzzle, 2 × 20 pieces",
+      "brand": "Clementoni",
+      "category": "Games & puzzles",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "play-doh-mini-bucket",
+      "name": "Play-Doh Mini Bucket (assorted)",
+      "brand": "Play-Doh",
+      "category": "Creative & outdoor",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "barbie-bubble-wand",
+      "name": "Barbie Bubble Wand Fan",
+      "brand": "Barbie",
+      "category": "Creative & outdoor",
+      "age": "3+",
+      "image": "/images/toys/barbie-bubble-wand.jpg",
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "super-soaker-raptor-surge",
+      "name": "Super Soaker Raptor Surge",
+      "brand": "Super Soaker",
+      "category": "Creative & outdoor",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "nerf-elite-2-duo-target-set",
+      "name": "Nerf Elite 2.0 Duo Target Set",
+      "brand": "Nerf",
+      "category": "Creative & outdoor",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "rc-citroen-ds3-wrc",
+      "name": "R/C Citroën DS 3 WRC (1:20)",
+      "brand": "Remote control",
+      "category": "Remote control cars",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "rc-ford-fiesta-rs-wrc",
+      "name": "R/C M-Sport Ford Fiesta RS WRC (1:20)",
+      "brand": "Remote control",
+      "category": "Remote control cars",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "rc-mercedes-sls-amg-gt",
+      "name": "R/C Mercedes-Benz SLS AMG GT Final Edition (1:24)",
+      "brand": "Remote control",
+      "category": "Remote control cars",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "rc-mclaren-570s",
+      "name": "R/C McLaren 570S (1:24)",
+      "brand": "Remote control",
+      "category": "Remote control cars",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "rc-audi-r8-coupe",
+      "name": "R/C Audi R8 Coupé (1:24)",
+      "brand": "Remote control",
+      "category": "Remote control cars",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "rc-lamborghini-huracan-sto",
+      "name": "R/C Lamborghini Huracán STO (1:24)",
+      "brand": "Rastar",
+      "category": "Remote control cars",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "rc-bugatti-chiron",
+      "name": "R/C Bugatti Chiron (1:24)",
+      "brand": "Rastar",
+      "category": "Remote control cars",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "rc-ferrari-f1-75",
+      "name": "R/C Ferrari F1-75 (1:18)",
+      "brand": "Rastar",
+      "category": "Remote control cars",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
       "id": "matchbox-3-pack-emergency",
-      "name": "Matchbox 3-Pack Emergency Vehicles",
+      "name": "Matchbox 3-Pack Vehicles (assorted)",
       "brand": "Matchbox",
+      "category": "Cars & vehicles",
       "age": "3+",
       "image": "/images/toys/matchbox-3-pack-emergency.jpg",
       "price": 1250,
+      "inStock": true
+    },
+    {
+      "id": "diecast-range-rover-sport",
+      "name": "Die-cast Range Rover Sport (1:43)",
+      "brand": "Rastar",
+      "category": "Cars & vehicles",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "diecast-bmw-i8",
+      "name": "Die-cast BMW i8 (1:43)",
+      "brand": "Rastar",
+      "category": "Cars & vehicles",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "diecast-mclaren-p1",
+      "name": "Die-cast McLaren P1 (1:43)",
+      "brand": "Rastar",
+      "category": "Cars & vehicles",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "diecast-lamborghini-sian",
+      "name": "Die-cast Lamborghini Sián (1:43)",
+      "brand": "Rastar",
+      "category": "Cars & vehicles",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "diecast-bugatti-divo",
+      "name": "Die-cast Bugatti Divo (1:43)",
+      "brand": "Rastar",
+      "category": "Cars & vehicles",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "hot-wheels-ejection-plane",
+      "name": "Hot Wheels Ejection Plane",
+      "brand": "Hot Wheels",
+      "category": "Cars & vehicles",
+      "age": null,
+      "image": null,
+      "price": null,
+      "inStock": true
+    },
+    {
+      "id": "hot-wheels-flying-saucer",
+      "name": "Hot Wheels Flying Saucer",
+      "brand": "Hot Wheels",
+      "category": "Cars & vehicles",
+      "age": null,
+      "image": null,
+      "price": null,
       "inStock": true
     }
   ]
