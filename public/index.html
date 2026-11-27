@@ -97,7 +97,11 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;
 document.getElementById('year').textContent = new Date().getFullYear();
 
 fetch('/api/catalogue').then((r) => r.json()).then((cat) => {
-  const from = Math.min(...cat.priceBands.map((b) => b.price));
+  const priceText = (p) => {
+    const ps = cat.priceBands.filter((b) => b.max >= p.minSize && b.min <= p.maxSize).map((b) => b.price);
+    const lo = Math.min(...ps), hi = Math.max(...ps);
+    return lo === hi ? `KSh ${fmt(lo)}` : `From KSh ${fmt(lo)}`;
+  };
   const cats = ['All', ...new Set(cat.products.map((p) => p.category))];
   let active = 'All';
   const filters = document.getElementById('filters');
@@ -115,7 +119,7 @@ fetch('/api/catalogue').then((r) => r.json()).then((cat) => {
           <span class="sizes">Sizes ${p.minSize}–${p.maxSize}</span>
           ${!p.inStock ? '<span class="badge out">Sold out</span>' : p.limited ? '<span class="badge">Limited stock</span>' : ''}
           <div class="card-foot">
-            <span class="price">From KSh ${fmt(from)}</span>
+            <span class="price">${priceText(p)}</span>
             ${p.inStock ? `<a class="btn btn-primary" href="/checkout?style=${encodeURIComponent(p.code)}">Order</a>` : ''}
           </div>
         </div>

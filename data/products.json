@@ -10,26 +10,159 @@
     "account": "849292"
   },
   "priceBands": [
-    { "min": 25, "max": 30, "price": 3100, "label": "Little feet", "note": "Pre-school & lower primary" },
-    { "min": 31, "max": 36, "price": 3300, "label": "Growing feet", "note": "Upper primary" },
-    { "min": 37, "max": 42, "price": 3500, "label": "Big strides", "note": "Junior & senior secondary" }
+    {
+      "min": 25,
+      "max": 30,
+      "price": 3100,
+      "label": "Little feet",
+      "note": "Pre-school & lower primary"
+    },
+    {
+      "min": 31,
+      "max": 36,
+      "price": 3300,
+      "label": "Growing feet",
+      "note": "Upper primary"
+    },
+    {
+      "min": 37,
+      "max": 42,
+      "price": 3500,
+      "label": "Big strides",
+      "note": "Junior & senior secondary"
+    }
   ],
   "delivery": {
-    "Nairobi": 250, "Thika": 200, "Machakos": 250, "Naivasha": 300, "Nyeri": 300, "Embu": 300,
-    "Nakuru": 350, "Nanyuki": 350, "Meru": 400, "Kericho": 400, "Eldoret": 450, "Kisumu": 450,
-    "Kisii": 450, "Mombasa": 500, "Kakamega": 500, "Bungoma": 500, "Kitale": 500, "Malindi": 600,
+    "Nairobi": 250,
+    "Thika": 200,
+    "Machakos": 250,
+    "Naivasha": 300,
+    "Nyeri": 300,
+    "Embu": 300,
+    "Nakuru": 350,
+    "Nanyuki": 350,
+    "Meru": 400,
+    "Kericho": 400,
+    "Eldoret": 450,
+    "Kisumu": 450,
+    "Kisii": 450,
+    "Mombasa": 500,
+    "Kakamega": 500,
+    "Bungoma": 500,
+    "Kitale": 500,
+    "Malindi": 600,
     "Other town": 500
   },
   "products": [
-    { "code": "617353", "name": "Classic Lace-Up", "category": "Boys", "image": "/images/617353.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "618509", "name": "Lightweight Lace-Up (EVA)", "category": "Boys", "image": "/images/618509.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "P617508", "name": "Patent Toe-Cap Lace-Up", "category": "Boys", "image": "/images/p617508.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "P650503", "name": "Patent Double Strap", "category": "Boys", "image": "/images/p650503.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "617452", "name": "Double-Buckle Mary Jane", "category": "Girls", "image": "/images/617452.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "P618431", "name": "Patent Mary Jane (EVA)", "category": "Girls", "image": "/images/p618431.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "618673", "name": "Petal Mary Jane (EVA)", "category": "Girls", "image": "/images/618673.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "643414", "name": "T-Bar Buckle Shoe", "category": "Girls", "image": "/images/643414.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "P643405", "name": "Patent Strap Mary Jane", "category": "Girls", "image": "/images/p643405.jpg", "minSize": 25, "maxSize": 36, "inStock": true, "limited": false, "soldOutSizes": [] },
-    { "code": "WHITE-SPORT", "name": "White Sports Shoe", "category": "Sports", "image": "/images/white-sport.jpg", "minSize": 25, "maxSize": 42, "inStock": true, "limited": true, "soldOutSizes": [] }
+    {
+      "code": "617353",
+      "name": "Classic Lace-Up",
+      "category": "Boys",
+      "image": "/images/617353.jpg",
+      "minSize": 37,
+      "maxSize": 42,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "618509",
+      "name": "Lightweight Lace-Up (EVA)",
+      "category": "Boys",
+      "image": "/images/618509.jpg",
+      "minSize": 27,
+      "maxSize": 30,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "P617508",
+      "name": "Patent Toe-Cap Lace-Up",
+      "category": "Boys",
+      "image": "/images/p617508.jpg",
+      "minSize": 31,
+      "maxSize": 36,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "P650503",
+      "name": "Patent Double Strap",
+      "category": "Boys",
+      "image": "/images/p650503.jpg",
+      "minSize": 25,
+      "maxSize": 30,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "617452",
+      "name": "Double-Buckle Mary Jane",
+      "category": "Girls",
+      "image": "/images/617452.jpg",
+      "minSize": 37,
+      "maxSize": 42,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "P618431",
+      "name": "Patent Mary Jane (EVA)",
+      "category": "Girls",
+      "image": "/images/p618431.jpg",
+      "minSize": 31,
+      "maxSize": 36,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "618673",
+      "name": "Petal Mary Jane (EVA)",
+      "category": "Girls",
+      "image": "/images/618673.jpg",
+      "minSize": 31,
+      "maxSize": 36,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "643414",
+      "name": "T-Bar Buckle Shoe",
+      "category": "Girls",
+      "image": "/images/643414.jpg",
+      "minSize": 25,
+      "maxSize": 30,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "P643405",
+      "name": "Patent Strap Mary Jane",
+      "category": "Girls",
+      "image": "/images/p643405.jpg",
+      "minSize": 27,
+      "maxSize": 30,
+      "inStock": true,
+      "limited": false,
+      "soldOutSizes": []
+    },
+    {
+      "code": "WHITE-SPORT",
+      "name": "White Sports Shoe",
+      "category": "Sports",
+      "image": "/images/white-sport.jpg",
+      "minSize": 25,
+      "maxSize": 42,
+      "inStock": true,
+      "limited": true,
+      "soldOutSizes": []
+    }
   ]
 }
