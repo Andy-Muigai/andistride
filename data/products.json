@@ -295,7 +295,7 @@
       "brand": "Barbie",
       "age": "3+",
       "image": "/images/toys/barbie-fashionistas-185.jpg",
-      "price": null,
+      "price": 3300,
       "inStock": true
     },
     {
@@ -322,7 +322,7 @@
       "brand": "Ravensburger",
       "age": "4+",
       "image": "/images/toys/ravensburger-lion-king-2x24.jpg",
-      "price": null,
+      "price": 2000,
       "inStock": true
     },
     {
@@ -331,7 +331,7 @@
       "brand": "Matchbox",
       "age": "3+",
       "image": "/images/toys/matchbox-3-pack-emergency.jpg",
-      "price": null,
+      "price": 1250,
       "inStock": true
     }
   ]
