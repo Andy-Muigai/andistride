@@ -234,12 +234,11 @@
   hero.addEventListener('touchend', () => setTimeout(() => (paused = false), 4000), { passive: true });
   mark(); restart();
 })();
-// announcement: Christmas countdown
+// announcement: Christmas message until 25 December, then back-to-school
 (() => {
-  const now = new Date(); const xmas = new Date(now.getFullYear(), 11, 25);
-  const days = Math.ceil((xmas - now) / 864e5);
-  if (days > 0 && days <= 45) {
-    document.getElementById('announceText').innerHTML = `<b>${days} day${days === 1 ? '' : 's'} to Christmas.</b> Order toys early, and get school shoes before the January rush.`;
+  const now = new Date();
+  if (now <= new Date(now.getFullYear(), 11, 25, 23, 59)) {
+    document.getElementById('announceText').innerHTML = '<b>Make this Christmas one to remember!</b> Toy stocks are limited, so order early.';
     document.querySelector('#announce a').setAttribute('href', '#toys'); document.querySelector('#announce a').textContent = 'Shop toys';
   }
 })();
