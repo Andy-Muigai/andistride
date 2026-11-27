@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+<div class="announce" id="announce"><span id="announceText">Back to school in January: order shoes early, before the rush.</span> <a href="#shop">Shop now</a></div>
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="/"><img src="/images/logo.jpg" alt="Andifusion logo"><span><b>ANDISTRIDE</b><small>BY ANDIFUSION</small></span></a>
@@ -29,23 +30,64 @@
 </header>
 
 <main>
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-text">
-      <span class="pill">Genuine Crabkids school shoes</span>
-      <h1>Every little step,<br>made strong.</h1>
-      <p>Tough, comfortable Crabkids school shoes for boys and girls, sizes 25 to 42, delivered to your town.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-white" href="#shop">Shop school shoes</a>
-        <a class="btn btn-dark" href="https://wa.me/254754144378">Ask on WhatsApp</a>
+<section class="hero carousel" aria-roledescription="carousel" aria-label="Offers">
+  <div class="slides" id="slides" tabindex="0">
+    <div class="slide s-blue" role="group" aria-roledescription="slide" aria-label="1 of 4">
+      <div class="wrap">
+        <div class="hero-text">
+          <span class="pill">Back to school · January</span>
+          <h1>Beat the January rush</h1>
+          <p>Genuine Crabkids school shoes from <b>KSh 3,100</b>. Popular sizes run out fast, so order early.</p>
+          <div class="hero-ctas"><a class="btn btn-white" href="#shop">Shop school shoes</a><a class="btn btn-dark" href="/checkout">Order now</a></div>
+        </div>
+        <div class="hero-imgs">
+          <img src="/images/white-sport-box.jpg" alt="White Crabkids sports shoe on its box">
+          <img src="/images/617353.jpg" alt="Black lace-up school shoe">
+          <img src="/images/618673.jpg" alt="Black Mary Jane school shoe">
+        </div>
       </div>
     </div>
-    <div class="hero-imgs">
-      <img src="/images/white-sport-box.jpg" alt="White Crabkids sports shoe on its box">
-      <img src="/images/617353.jpg" alt="Black lace-up school shoe">
-      <img src="/images/618673.jpg" alt="Black Mary Jane school shoe">
+    <div class="slide s-red" role="group" aria-roledescription="slide" aria-label="2 of 4">
+      <div class="wrap">
+        <div class="hero-text">
+          <span class="pill">Christmas gifts</span>
+          <h2 class="h1">Surprise them this Christmas</h2>
+          <p>LEGO, Barbie, Hot Wheels, remote control cars and more. Many are single pieces, so grab yours before they're gone.</p>
+          <div class="hero-ctas"><a class="btn btn-white" href="#toys">Shop toys</a><a class="btn btn-ghost" href="https://wa.me/254754144378">Ask on WhatsApp</a></div>
+        </div>
+        <div class="hero-imgs toys-imgs">
+          <img src="/images/toys/lego-f1-driver-mclaren.jpg" alt="LEGO City F1 Driver with McLaren Race Car">
+          <img src="/images/toys/barbie-dreamtopia-princess.jpg" alt="Barbie Dreamtopia Princess">
+          <img src="/images/toys/rc-lamborghini-huracan-sto.jpg" alt="R/C Lamborghini Huracán STO">
+        </div>
+      </div>
+    </div>
+    <div class="slide s-navy" role="group" aria-roledescription="slide" aria-label="3 of 4">
+      <div class="wrap">
+        <div class="hero-text">
+          <span class="pill">Delivered countrywide</span>
+          <h2 class="h1">To your town, or free pickup</h2>
+          <p>Matatu parcel, G4S or Wells Fargo to all major towns. Or collect from our shop for <b>free</b>.</p>
+          <div class="hero-ctas"><a class="btn btn-white" href="/checkout">See delivery options</a></div>
+        </div>
+        <div class="hero-imgs one"><img src="/images/shop/shop-shoe-display.jpg" alt="Crabkids school shoes on display in our shop"></div>
+      </div>
+    </div>
+    <div class="slide s-mid" role="group" aria-roledescription="slide" aria-label="4 of 4">
+      <div class="wrap">
+        <div class="hero-text">
+          <span class="pill">Safe &amp; simple</span>
+          <h2 class="h1">We confirm first, then you pay</h2>
+          <p>No paying for out-of-stock items. We check your size, then you pay with <b>M-Pesa</b> and track your order.</p>
+          <div class="hero-ctas"><a class="btn btn-white" href="#how">How to order</a><a class="btn btn-dark" href="/checkout">Order now</a></div>
+        </div>
+        <div class="hero-imgs one"><img src="/images/shop/shop-crabkids-poster.jpg" alt="Crabkids Back To School poster at our shop"></div>
+      </div>
     </div>
   </div>
+  <button class="car-btn prev" type="button" aria-label="Previous slide" id="prev"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="car-btn next" type="button" aria-label="Next slide" id="next"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+  <div class="dots" id="dots" role="group" aria-label="Choose slide"></div>
 </section>
 
 <section class="benefits" aria-label="Why Andistride">
@@ -54,6 +96,18 @@
     <div class="benefit"><svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F6FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18"/><path d="M5 17l2-7h10l2 7"/><path d="M9 10V6h6v4"/></svg><div><b>Lightweight EVA soles</b><span>Easy on little feet from assembly to games time.</span></div></div>
     <div class="benefit"><svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F6FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="13" height="10" rx="1"/><path d="M16 10h3l2 3v4h-5"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg><div><b>Delivery countrywide</b><span>By matatu parcel, G4S or Wells Fargo.</span></div></div>
     <div class="benefit"><svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F6FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><div><b>Pay with M-Pesa</b><span>Simple, secure payment from your phone.</span></div></div>
+  </div>
+</section>
+
+<section class="block how" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <div class="section-head"><div><h2 id="how-title">Order in 3 easy steps</h2><p>No account needed. It takes about a minute.</p></div></div>
+    <ol class="steps3">
+      <li><b>Pick</b><span>Choose a style and your child's size, or a toy.</span></li>
+      <li><b>We confirm</b><span>We check stock and send you the payment details. Don't pay before this.</span></li>
+      <li><b>Pay &amp; receive</b><span>Pay with M-Pesa. We send by matatu, G4S or Wells Fargo, or you collect free.</span></li>
+    </ol>
+    <div class="hero-ctas" style="justify-content:center;margin-top:22px"><a class="btn btn-primary" href="/checkout">Start my order</a><a class="btn btn-outline" href="#toys">Browse toys</a></div>
   </div>
 </section>
 
@@ -158,7 +212,37 @@
   </div>
 </footer>
 
+<a class="wa-float" href="https://wa.me/254754144378?text=Hi%20Andistride%2C%20I%27d%20like%20to%20order" aria-label="Chat with us on WhatsApp"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"/><path d="M9 9.5c.3 1.6 1.9 3.6 4 4.5l1.2-1.1 2 .9-.4 1.6c-3.6.4-7.6-3.3-8-6.8l1.6-.5.9 2z"/></svg><span>Order on WhatsApp</span></a>
+
 <script>
+// carousel
+(() => {
+  const track = document.getElementById('slides'); const slides = [...track.children];
+  const dots = document.getElementById('dots'); let i = 0, timer = null, paused = false;
+  dots.innerHTML = slides.map((_, k) => `<button type="button" aria-label="Slide ${k + 1}" data-k="${k}"></button>`).join('');
+  const mark = () => [...dots.children].forEach((d, k) => d.setAttribute('aria-current', k === i ? 'true' : 'false'));
+  const go = (k) => { i = (k + slides.length) % slides.length; track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' }); mark(); };
+  track.addEventListener('scroll', () => { const k = Math.round(track.scrollLeft / track.clientWidth); if (k !== i) { i = k; mark(); } }, { passive: true });
+  dots.onclick = (e) => { const b = e.target.closest('[data-k]'); if (b) { go(+b.dataset.k); restart(); } };
+  document.getElementById('prev').onclick = () => { go(i - 1); restart(); };
+  document.getElementById('next').onclick = () => { go(i + 1); restart(); };
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const restart = () => { clearInterval(timer); if (!reduce) timer = setInterval(() => { if (!paused && !document.hidden) go(i + 1); }, 6000); };
+  const hero = track.parentElement;
+  ['mouseenter', 'focusin', 'touchstart'].forEach((ev) => hero.addEventListener(ev, () => (paused = true), { passive: true }));
+  ['mouseleave', 'focusout'].forEach((ev) => hero.addEventListener(ev, () => (paused = false)));
+  hero.addEventListener('touchend', () => setTimeout(() => (paused = false), 4000), { passive: true });
+  mark(); restart();
+})();
+// announcement: Christmas countdown
+(() => {
+  const now = new Date(); const xmas = new Date(now.getFullYear(), 11, 25);
+  const days = Math.ceil((xmas - now) / 864e5);
+  if (days > 0 && days <= 45) {
+    document.getElementById('announceText').innerHTML = `<b>${days} day${days === 1 ? '' : 's'} to Christmas.</b> Order toys early, and get school shoes before the January rush.`;
+    document.querySelector('#announce a').setAttribute('href', '#toys'); document.querySelector('#announce a').textContent = 'Shop toys';
+  }
+})();
 const fmt = (n) => Number(n).toLocaleString('en-KE');
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 document.getElementById('year').textContent = new Date().getFullYear();
