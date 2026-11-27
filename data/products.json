@@ -296,7 +296,7 @@
       "category": "Building sets",
       "age": null,
       "image": "/images/toys/lego-police-off-road-buggy.jpg",
-      "price": 900,
+      "price": 1050,
       "inStock": true,
       "limited": false
     },
@@ -307,7 +307,7 @@
       "category": "Building sets",
       "age": null,
       "image": "/images/toys/lego-duplo-crafting-with-baby.jpg",
-      "price": 3450,
+      "price": 4000,
       "inStock": true,
       "limited": true
     },
@@ -318,7 +318,7 @@
       "category": "Building sets",
       "age": null,
       "image": "/images/toys/lego-duplo-police-bike.jpg",
-      "price": 2190,
+      "price": 2550,
       "inStock": true,
       "limited": true
     },
@@ -329,7 +329,7 @@
       "category": "Building sets",
       "age": null,
       "image": "/images/toys/lego-moanas-island-fun.jpg",
-      "price": 4600,
+      "price": 5350,
       "inStock": true,
       "limited": true
     },
@@ -340,7 +340,7 @@
       "category": "Building sets",
       "age": null,
       "image": "/images/toys/lego-f1-driver-mclaren.jpg",
-      "price": 2700,
+      "price": 3150,
       "inStock": true,
       "limited": true
     },
@@ -351,7 +351,7 @@
       "category": "Building sets",
       "age": null,
       "image": "/images/toys/lego-nissan-skyline-gtr-r34.jpg",
-      "price": 7000,
+      "price": 8100,
       "inStock": true,
       "limited": true
     },
@@ -362,7 +362,7 @@
       "category": "Dolls",
       "age": "3+",
       "image": "/images/toys/barbie-fashionistas-185.jpg",
-      "price": 3300,
+      "price": 3850,
       "inStock": true,
       "limited": true
     },
@@ -373,7 +373,7 @@
       "category": "Dolls",
       "age": null,
       "image": "/images/toys/barbie-dreamtopia-princess.jpg",
-      "price": 3300,
+      "price": 3850,
       "inStock": true,
       "limited": true
     },
@@ -384,7 +384,7 @@
       "category": "Games & puzzles",
       "age": "5+",
       "image": "/images/toys/monopoly-junior.jpg",
-      "price": 4330,
+      "price": 5000,
       "inStock": true,
       "limited": true
     },
@@ -395,7 +395,7 @@
       "category": "Games & puzzles",
       "age": "4+",
       "image": "/images/toys/ravensburger-lion-king-2x24.jpg",
-      "price": 2000,
+      "price": 2300,
       "inStock": true,
       "limited": true
     },
@@ -406,7 +406,7 @@
       "category": "Games & puzzles",
       "age": null,
       "image": "/images/toys/clementoni-frozen-2-2x20.jpg",
-      "price": 1410,
+      "price": 1650,
       "inStock": true,
       "limited": true
     },
@@ -417,7 +417,7 @@
       "category": "Creative & outdoor",
       "age": null,
       "image": "/images/toys/play-doh-mini-bucket.jpg",
-      "price": 1660,
+      "price": 1950,
       "inStock": true,
       "limited": false
     },
@@ -428,7 +428,7 @@
       "category": "Creative & outdoor",
       "age": "3+",
       "image": "/images/toys/barbie-bubble-wand.jpg",
-      "price": 1270,
+      "price": 1450,
       "inStock": true,
       "limited": true
     },
@@ -439,7 +439,7 @@
       "category": "Creative & outdoor",
       "age": null,
       "image": "/images/toys/super-soaker-raptor-surge.jpg",
-      "price": 2960,
+      "price": 3450,
       "inStock": true,
       "limited": true
     },
@@ -450,7 +450,7 @@
       "category": "Creative & outdoor",
       "age": null,
       "image": "/images/toys/nerf-elite-2-duo-target-set.jpg",
-      "price": 1600,
+      "price": 1850,
       "inStock": true,
       "limited": true
     },
@@ -516,7 +516,7 @@
       "category": "Remote control cars",
       "age": null,
       "image": "/images/toys/rc-lamborghini-huracan-sto.jpg",
-      "price": 3500,
+      "price": 4050,
       "inStock": true,
       "limited": true
     },
@@ -527,7 +527,7 @@
       "category": "Remote control cars",
       "age": null,
       "image": "/images/toys/rc-bugatti-chiron.jpg",
-      "price": 3500,
+      "price": 4050,
       "inStock": true,
       "limited": true
     },
@@ -538,7 +538,7 @@
       "category": "Remote control cars",
       "age": null,
       "image": "/images/toys/rc-ferrari-f1-75.jpg",
-      "price": 6050,
+      "price": 7000,
       "inStock": true,
       "limited": true
     },
@@ -561,7 +561,7 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": "/images/toys/diecast-range-rover-sport.jpg",
-      "price": 850,
+      "price": 1000,
       "inStock": true,
       "limited": true
     },
@@ -572,7 +572,7 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": "/images/toys/diecast-bmw-i8.jpg",
-      "price": 850,
+      "price": 1000,
       "inStock": true,
       "limited": true
     },
@@ -583,7 +583,7 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": "/images/toys/diecast-mclaren-p1.jpg",
-      "price": 850,
+      "price": 1000,
       "inStock": true,
       "limited": true
     },
@@ -594,7 +594,7 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": "/images/toys/diecast-lamborghini-sian.jpg",
-      "price": 850,
+      "price": 1000,
       "inStock": true,
       "limited": true
     },
@@ -605,7 +605,7 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": "/images/toys/diecast-bugatti-divo.jpg",
-      "price": 850,
+      "price": 1000,
       "inStock": true,
       "limited": true
     },
@@ -616,7 +616,7 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": "/images/toys/hot-wheels-ejection-plane.jpg",
-      "price": 1470,
+      "price": 1700,
       "inStock": true,
       "limited": true
     },
@@ -627,7 +627,7 @@
       "category": "Cars & vehicles",
       "age": null,
       "image": "/images/toys/hot-wheels-flying-saucer.jpg",
-      "price": 1310,
+      "price": 1500,
       "inStock": true,
       "limited": true
     }
