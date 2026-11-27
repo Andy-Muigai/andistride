@@ -5,7 +5,7 @@ Shop: `public/index.html` · Checkout: `public/checkout.html` · Server: `server
 ## Change products, prices, stock, delivery fees
 Everything lives in **`data/products.json`**:
 - **Prices** → `priceBands` (25–30, 31–36, 37–42)
-- **Delivery fees** → `delivery` (town: fee)
+- **Delivery fees** → `delivery` (town → fee per option: `matatu`, `g4s`, `wells`), dispatched from Eldoret. Options and their descriptions → `deliveryMethods`.
 - **Products** → `products`. Each has `code`, `name`, `category`, `image`,
   `minSize`, `maxSize`, `inStock` (false = shows "Sold out"), `limited`
   (true = "Limited stock" badge), `soldOutSizes` (e.g. `[25, 26]`).

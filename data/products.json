@@ -33,25 +33,101 @@
     }
   ],
   "delivery": {
-    "Nairobi": 250,
-    "Thika": 200,
-    "Machakos": 250,
-    "Naivasha": 300,
-    "Nyeri": 300,
-    "Embu": 300,
-    "Nakuru": 350,
-    "Nanyuki": 350,
-    "Meru": 400,
-    "Kericho": 400,
-    "Eldoret": 450,
-    "Kisumu": 450,
-    "Kisii": 450,
-    "Mombasa": 500,
-    "Kakamega": 500,
-    "Bungoma": 500,
-    "Kitale": 500,
-    "Malindi": 600,
-    "Other town": 500
+    "Eldoret": {
+      "matatu": 150,
+      "g4s": 350,
+      "wells": 300
+    },
+    "Kitale": {
+      "matatu": 200,
+      "g4s": 400,
+      "wells": 350
+    },
+    "Kakamega": {
+      "matatu": 250,
+      "g4s": 420,
+      "wells": 350
+    },
+    "Bungoma": {
+      "matatu": 250,
+      "g4s": 450,
+      "wells": 380
+    },
+    "Kisumu": {
+      "matatu": 300,
+      "g4s": 450,
+      "wells": 380
+    },
+    "Kericho": {
+      "matatu": 300,
+      "g4s": 450,
+      "wells": 380
+    },
+    "Nakuru": {
+      "matatu": 300,
+      "g4s": 420,
+      "wells": 350
+    },
+    "Kisii": {
+      "matatu": 350,
+      "g4s": 500,
+      "wells": 420
+    },
+    "Naivasha": {
+      "matatu": 350,
+      "g4s": 450,
+      "wells": 400
+    },
+    "Nairobi": {
+      "matatu": 400,
+      "g4s": 500,
+      "wells": 450
+    },
+    "Thika": {
+      "matatu": 450,
+      "g4s": 550,
+      "wells": 480
+    },
+    "Machakos": {
+      "matatu": 450,
+      "g4s": 550,
+      "wells": 480
+    },
+    "Nyeri": {
+      "matatu": 450,
+      "g4s": 550,
+      "wells": 480
+    },
+    "Nanyuki": {
+      "matatu": 450,
+      "g4s": 550,
+      "wells": 480
+    },
+    "Embu": {
+      "matatu": 500,
+      "g4s": 580,
+      "wells": 500
+    },
+    "Meru": {
+      "matatu": 500,
+      "g4s": 600,
+      "wells": 520
+    },
+    "Mombasa": {
+      "matatu": 700,
+      "g4s": 750,
+      "wells": 650
+    },
+    "Malindi": {
+      "matatu": 800,
+      "g4s": 900,
+      "wells": 800
+    },
+    "Other town": {
+      "matatu": 500,
+      "g4s": 600,
+      "wells": 500
+    }
   },
   "products": [
     {
@@ -163,6 +239,24 @@
       "inStock": true,
       "limited": true,
       "soldOutSizes": []
+    }
+  ],
+  "dispatchFrom": "Eldoret",
+  "deliveryMethods": [
+    {
+      "id": "matatu",
+      "name": "Matatu parcel",
+      "note": "Cheapest. 1–2 days. Collect at the sacco office in your town."
+    },
+    {
+      "id": "g4s",
+      "name": "G4S courier",
+      "note": "Next day to the G4S branch in your town. Tracked and secure."
+    },
+    {
+      "id": "wells",
+      "name": "Wells Fargo courier",
+      "note": "Overnight to the Wells Fargo branch in your town. Tracked."
     }
   ]
 }

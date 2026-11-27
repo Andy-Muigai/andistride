@@ -80,7 +80,7 @@ app.get('/api/catalogue', (_req, res) => {
 app.post('/api/order', async (req, res) => {
   try {
     const cat = catalogue();
-    const { code, size, qty = 1, name, town, stage = '', phone } = req.body || {};
+    const { code, size, qty = 1, name, town, stage = '', phone, method = 'matatu' } = req.body || {};
     const product = cat.products.find((p) => p.code === code);
     const s = Number(size), q = Number(qty);
     const msisdn = normalisePhone(phone);
@@ -90,10 +90,12 @@ app.post('/api/order', async (req, res) => {
     if (!Number.isInteger(q) || q < 1 || q > 10) return res.status(400).json({ error: 'Invalid quantity.' });
     if (!name || !String(name).trim()) return res.status(400).json({ error: 'Please enter your name.' });
     if (!(town in cat.delivery)) return res.status(400).json({ error: 'Please choose your town.' });
+    const methodInfo = cat.deliveryMethods.find((m) => m.id === method);
+    if (!methodInfo || !(method in cat.delivery[town])) return res.status(400).json({ error: 'Please choose a delivery option.' });
     if (!msisdn) return res.status(400).json({ error: 'Enter a valid Safaricom number, e.g. 0712 345 678.' });
 
     const unit = priceForSize(cat, s);
-    const deliveryFee = cat.delivery[town];
+    const deliveryFee = cat.delivery[town][method];
     const total = unit * q + deliveryFee;
     const db = load();
     const orderNo = newOrderNo(db);
@@ -101,13 +103,14 @@ app.post('/api/order', async (req, res) => {
       orderNo, key: require('crypto').randomBytes(6).toString('hex'),
       status: 'AWAITING_CONFIRMATION', mode: PAYMENT_MODE, createdAt: new Date().toISOString(),
       customer: { name: String(name).trim(), phone: msisdn, town, stage: String(stage).slice(0, 80) },
+      delivery: { method, name: methodInfo.name },
       item: { code, name: product.name, size: s, qty: q, unitPrice: unit },
       deliveryFee, total,
     };
 
     db[orderNo] = order;
     save(db);
-    console.log(`New order ${orderNo}: ${product.name} size ${s} x${q} → ${town}, KSh ${total} (${PAYMENT_MODE})`);
+    console.log(`New order ${orderNo}: ${product.name} size ${s} x${q} → ${town} by ${methodInfo.name}, KSh ${total}`);
     res.json({ orderNo, key: order.key, total });
   } catch (err) {
     console.error(err);
@@ -150,6 +153,7 @@ app.get('/api/orders/:orderNo', (req, res) => {
   res.json({
     orderNo: o.orderNo, status: o.status, mode: PAYMENT_MODE === 'stk' ? 'stk' : 'manual',
     item: o.item, image: product ? product.image : null, town: o.customer.town, name: o.customer.name,
+    deliveryName: o.delivery ? o.delivery.name : 'Matatu parcel',
     deliveryFee: o.deliveryFee, total: o.total, note: o.note || null, failReason: o.failReason || null,
     paybill: cat.business.paybill, account: cat.business.account, whatsapp: cat.business.whatsapp,
   });
@@ -213,7 +217,7 @@ function etimsLines(o) {
     reference: `${o.orderNo} / M-Pesa ${o.mpesaReceipt || '-'}`,
     lines: [
       { item: `${o.item.name} (${o.item.code}) size ${o.item.size}`, qty: o.item.qty, unitPriceInclVAT: o.item.unitPrice, ...split(o.item.unitPrice * o.item.qty) },
-      { item: `Delivery to ${o.customer.town}`, qty: 1, unitPriceInclVAT: o.deliveryFee, ...split(o.deliveryFee) },
+      { item: `Delivery (${o.delivery ? o.delivery.name : 'Matatu parcel'}) to ${o.customer.town}`, qty: 1, unitPriceInclVAT: o.deliveryFee, ...split(o.deliveryFee) },
     ],
     totalInclVAT: o.total,
   };

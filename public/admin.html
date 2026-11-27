@@ -142,7 +142,7 @@ function card(o) {
     <div class="meta">
       <div><strong>${esc(i.name)}</strong> (${esc(i.code)}) · size ${i.size} · qty ${i.qty}</div>
       <div>${esc(c.name)} · ${esc(phone)}</div>
-      <div>Deliver to <strong>${esc(c.town)}</strong>${c.stage ? ' · ' + esc(c.stage) : ''}</div>
+      <div>Deliver to <strong>${esc(c.town)}</strong> by <strong>${esc(o.delivery ? o.delivery.name : 'Matatu parcel')}</strong>${c.stage ? ' · ' + esc(c.stage) : ''}</div>
       <div>Total <strong>KSh ${fmt(o.total)}</strong> (incl. delivery KSh ${fmt(o.deliveryFee)}) · ${esc(when)}</div>
       ${o.mpesaReceipt ? `<div>M-Pesa code: <strong>${esc(o.mpesaReceipt)}</strong></div>` : ''}
       ${o.note ? `<div>Note: ${esc(o.note)}</div>` : ''}
@@ -170,7 +170,7 @@ $('orders').addEventListener('click', async (e) => {
   if (act === 'UNAVAILABLE' || act === 'DISPATCHED') {
     const n = prompt(act === 'UNAVAILABLE'
       ? `Message for the customer (e.g. "Size ${o.item.size} is out of stock — size ${o.item.size + 1} is available"):`
-      : 'Parcel details (sacco, parcel/receipt no., expected arrival):', '');
+      : 'Parcel details (sacco/courier, waybill or receipt no., expected arrival):', '');
     if (n === null) return; body.note = n.trim();
   }
   b.disabled = true;

@@ -45,7 +45,7 @@ function steps(st) {
 function itemBox(o) {
   return `<div class="paybox item">${o.image ? `<img src="${esc(o.image)}" alt="">` : ''}<div>
     <b>${esc(o.item.name)}</b> · size ${o.item.size} · qty ${o.item.qty}<br>
-    Delivery to ${esc(o.town)}: KSh ${fmt(o.deliveryFee)}<br><b>Total: KSh ${fmt(o.total)}</b></div></div>`;
+    Delivery to ${esc(o.town)} (${esc(o.deliveryName)}): KSh ${fmt(o.deliveryFee)}<br><b>Total: KSh ${fmt(o.total)}</b></div></div>`;
 }
 const wa = (o, text) => `https://wa.me/${o.whatsapp}?text=${encodeURIComponent(text)}`;
 
@@ -83,7 +83,7 @@ function view(o) {
     case 'PENDING':
       return head + `<p><b>Check your phone.</b> Enter your M-Pesa PIN to pay KSh ${fmt(o.total)}. This page updates once payment is received.</p>${itemBox(o)}`;
     case 'PAID':
-      return head + `<p><b>Payment received — thank you!</b> We're packing your order and will send it by matatu parcel to ${esc(o.town)}.</p>${itemBox(o)}`;
+      return head + `<p><b>Payment received — thank you!</b> We're packing your order and will send it by ${esc(o.deliveryName)} to ${esc(o.town)}.</p>${itemBox(o)}`;
     case 'DISPATCHED':
       return head + `<p><b>Your order is on the way</b> to ${esc(o.town)}. We've sent the parcel details on WhatsApp.</p>${o.note ? `<div class="paybox">${esc(o.note)}</div>` : ''}${itemBox(o)}`;
     case 'DELIVERED':
