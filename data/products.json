@@ -41,97 +41,116 @@
     "Eldoret": {
       "matatu": 150,
       "g4s": 350,
-      "wells": 300
+      "wells": 300,
+      "pickup": 0
     },
     "Kitale": {
       "matatu": 200,
       "g4s": 400,
-      "wells": 350
+      "wells": 350,
+      "pickup": 0
     },
     "Kakamega": {
       "matatu": 250,
       "g4s": 420,
-      "wells": 350
+      "wells": 350,
+      "pickup": 0
     },
     "Bungoma": {
       "matatu": 250,
       "g4s": 450,
-      "wells": 380
+      "wells": 380,
+      "pickup": 0
     },
     "Kisumu": {
       "matatu": 300,
       "g4s": 450,
-      "wells": 380
+      "wells": 380,
+      "pickup": 0
     },
     "Kericho": {
       "matatu": 300,
       "g4s": 450,
-      "wells": 380
+      "wells": 380,
+      "pickup": 0
     },
     "Nakuru": {
       "matatu": 300,
       "g4s": 420,
-      "wells": 350
+      "wells": 350,
+      "pickup": 0
     },
     "Kisii": {
       "matatu": 350,
       "g4s": 500,
-      "wells": 420
+      "wells": 420,
+      "pickup": 0
     },
     "Naivasha": {
       "matatu": 350,
       "g4s": 450,
-      "wells": 400
+      "wells": 400,
+      "pickup": 0
     },
     "Nairobi": {
       "matatu": 400,
       "g4s": 500,
-      "wells": 450
+      "wells": 450,
+      "pickup": 0
     },
     "Thika": {
       "matatu": 450,
       "g4s": 550,
-      "wells": 480
+      "wells": 480,
+      "pickup": 0
     },
     "Machakos": {
       "matatu": 450,
       "g4s": 550,
-      "wells": 480
+      "wells": 480,
+      "pickup": 0
     },
     "Nyeri": {
       "matatu": 450,
       "g4s": 550,
-      "wells": 480
+      "wells": 480,
+      "pickup": 0
     },
     "Nanyuki": {
       "matatu": 450,
       "g4s": 550,
-      "wells": 480
+      "wells": 480,
+      "pickup": 0
     },
     "Embu": {
       "matatu": 500,
       "g4s": 580,
-      "wells": 500
+      "wells": 500,
+      "pickup": 0
     },
     "Meru": {
       "matatu": 500,
       "g4s": 600,
-      "wells": 520
+      "wells": 520,
+      "pickup": 0
     },
     "Mombasa": {
       "matatu": 700,
       "g4s": 750,
-      "wells": 650
+      "wells": 650,
+      "pickup": 0
     },
     "Malindi": {
       "matatu": 800,
       "g4s": 900,
-      "wells": 800
+      "wells": 800,
+      "pickup": 0
     },
     "Other town": {
       "matatu": 500,
       "g4s": 600,
-      "wells": 500
+      "wells": 500,
+      "pickup": 0
     }
   },
   "products": [
@@ -262,6 +281,11 @@
       "id": "wells",
       "name": "Wells Fargo courier",
       "note": "Overnight to the Wells Fargo branch in your town. Tracked."
+    },
+    {
+      "id": "pickup",
+      "name": "Collect from our shop",
+      "note": "Free. Pick up at Jehovah Jaira Kids Store — we'll WhatsApp you when it's ready."
     }
   ]
 }

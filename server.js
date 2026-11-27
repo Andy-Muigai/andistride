@@ -153,7 +153,8 @@ app.get('/api/orders/:orderNo', (req, res) => {
   res.json({
     orderNo: o.orderNo, status: o.status, mode: PAYMENT_MODE === 'stk' ? 'stk' : 'manual',
     item: o.item, image: product ? product.image : null, town: o.customer.town, name: o.customer.name,
-    deliveryName: o.delivery ? o.delivery.name : 'Matatu parcel',
+    deliveryName: o.delivery ? o.delivery.name : 'Matatu parcel', deliveryMethod: o.delivery ? o.delivery.method : 'matatu',
+    mapsUrl: cat.business.mapsUrl, shopName: cat.business.shopName,
     deliveryFee: o.deliveryFee, total: o.total, note: o.note || null, failReason: o.failReason || null,
     paybill: cat.business.paybill, account: cat.business.account, whatsapp: cat.business.whatsapp,
   });
@@ -217,7 +218,7 @@ function etimsLines(o) {
     reference: `${o.orderNo} / M-Pesa ${o.mpesaReceipt || '-'}`,
     lines: [
       { item: `${o.item.name} (${o.item.code}) size ${o.item.size}`, qty: o.item.qty, unitPriceInclVAT: o.item.unitPrice, ...split(o.item.unitPrice * o.item.qty) },
-      { item: `Delivery (${o.delivery ? o.delivery.name : 'Matatu parcel'}) to ${o.customer.town}`, qty: 1, unitPriceInclVAT: o.deliveryFee, ...split(o.deliveryFee) },
+      ...(o.deliveryFee > 0 ? [{ item: `Delivery (${o.delivery ? o.delivery.name : 'Matatu parcel'}) to ${o.customer.town}`, qty: 1, unitPriceInclVAT: o.deliveryFee, ...split(o.deliveryFee) }] : []),
     ],
     totalInclVAT: o.total,
   };

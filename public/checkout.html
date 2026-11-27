@@ -111,7 +111,7 @@ function renderMethods() {
   const fees = cat.delivery[$('town').value];
   $('methods').innerHTML = cat.deliveryMethods.filter((m) => m.id in fees).map((m) => `
     <label class="method"><input type="radio" name="method" value="${m.id}" ${m.id === method ? 'checked' : ''}>
-      <span><b>${esc(m.name)}</b> — KSh ${fmt(fees[m.id])}<small>${esc(m.note)}</small></span></label>`).join('');
+      <span><b>${esc(m.name)}</b> — ${fees[m.id] ? 'KSh ' + fmt(fees[m.id]) : 'Free'}<small>${esc(m.note)}</small></span></label>`).join('');
 }
 const priceFor = (n) => (cat.priceBands.find((b) => n >= b.min && n <= b.max) || {}).price;
 function update() {
@@ -123,7 +123,7 @@ function update() {
   $('sumSize').textContent = size || 'Not chosen';
   $('sumUnit').textContent = size ? 'KSh ' + fmt(unit) : '—';
   $('sumQty').textContent = qty; $('qty').textContent = qty;
-  $('sumTown').textContent = $('town').value + ' (' + cat.deliveryMethods.find((m) => m.id === method).name + ')'; $('sumFee').textContent = 'KSh ' + fmt(fee);
+  $('sumTown').textContent = $('town').value + ' (' + cat.deliveryMethods.find((m) => m.id === method).name + ')'; $('sumFee').textContent = fee ? 'KSh ' + fmt(fee) : 'Free';
   $('sumTotal').textContent = fmt(size ? unit * qty + fee : 0);
 }
 
