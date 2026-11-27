@@ -45,6 +45,7 @@ function steps(st) {
 function itemBox(o) {
   return `<div class="paybox item">${o.image ? `<img src="${esc(o.image)}" alt="">` : ''}<div>
     <b>${esc(o.item.name)}</b> · size ${o.item.size} · qty ${o.item.qty}<br>
+    ${o.toy ? `+ ${esc(o.toy.name)} (${o.toy.discountPercent}% off): KSh ${fmt(o.toy.price)}<br>` : ''}
     ${o.deliveryMethod === 'pickup' ? 'Collect from our shop: Free' : `Delivery to ${esc(o.town)} (${esc(o.deliveryName)}): KSh ${fmt(o.deliveryFee)}`}<br><b>Total: KSh ${fmt(o.total)}</b></div></div>`;
 }
 const wa = (o, text) => `https://wa.me/${o.whatsapp}?text=${encodeURIComponent(text)}`;

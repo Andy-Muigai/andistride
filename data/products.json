@@ -551,7 +551,8 @@
       "image": "/images/toys/matchbox-3-pack-emergency.jpg",
       "price": 1250,
       "inStock": true,
-      "limited": false
+      "limited": false,
+      "noBundle": true
     },
     {
       "id": "diecast-range-rover-sport",
@@ -630,5 +631,9 @@
       "inStock": true,
       "limited": true
     }
-  ]
+  ],
+  "bundle": {
+    "toyDiscountPercent": 10,
+    "note": "10% off one toy when bought with school shoes"
+  }
 }

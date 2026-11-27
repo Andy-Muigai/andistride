@@ -37,6 +37,13 @@
           </div>
         </section>
 
+        <section class="panel bundle-panel" id="bundlePanel" hidden>
+          <h2>Add a toy <span class="deal">Bundle deal</span></h2>
+          <p class="hint" id="bundleHint"></p>
+          <div class="fields"><label class="wide">Toy (optional)<select id="toy"><option value="">No toy, just the shoes</option></select></label></div>
+          <div class="toy-pick" id="toyPick" hidden><img id="toyImg" alt=""><div><b id="toyName"></b><div><s id="toyWas"></s> <b class="now" id="toyNow"></b></div><small>Subject to availability</small></div></div>
+        </section>
+
         <section class="panel">
           <h2>3. Delivery details</h2>
           <p class="hint">We deliver to all major towns. Choose your town, then how you'd like it sent.</p>
@@ -62,6 +69,7 @@
           <div><span>Size</span><b id="sumSize">Not chosen</b></div>
           <div><span>Price each</span><b id="sumUnit">—</b></div>
           <div><span>Quantity</span><b id="sumQty">1</b></div>
+          <div id="sumToyRow" hidden><span id="sumToyName"></span><b id="sumToy"></b></div>
           <div><span>Delivery to <span id="sumTown"></span></span><b id="sumFee"></b></div>
         </div>
         <div class="total"><span style="font-weight:600">Total</span><b>KSh <span id="sumTotal">0</span></b></div>
@@ -90,6 +98,7 @@ fetch('/api/catalogue').then((r) => r.json()).then((c) => {
   renderMethods();
   $('payHint').textContent = "We'll first confirm your size is in stock, then you pay by M-Pesa. Don't pay until we confirm.";
   $('submit').textContent = 'Place order';
+  setupBundle(new URLSearchParams(location.search).get('toy'));
   renderStyles(available); renderSizes(); update();
 });
 
@@ -106,7 +115,23 @@ function renderSizes() {
   }
   $('sizes').innerHTML = html;
 }
-let method = 'matatu';
+let method = 'matatu', toy = null;
+const toyPrice = (t) => Math.round((t.price * (100 - cat.bundle.toyDiscountPercent)) / 100 / 10) * 10;
+function setupBundle(wanted) {
+  const toys = (cat.toys || []).filter((t) => t.inStock && t.price && !t.noBundle);
+  if (!cat.bundle || !toys.length) return;
+  $('bundlePanel').hidden = false;
+  $('bundleHint').textContent = `Get ${cat.bundle.toyDiscountPercent}% off one toy when you buy school shoes. Perfect as a Christmas gift.`;
+  $('toy').insertAdjacentHTML('beforeend', toys.map((t) => `<option value="${esc(t.id)}">${esc(t.name)}: KSh ${fmt(toyPrice(t))} (was ${fmt(t.price)})</option>`).join(''));
+  $('toy').onchange = () => { toy = toys.find((t) => t.id === $('toy').value) || null; showToy(); update(); };
+  if (wanted && toys.some((t) => t.id === wanted)) { $('toy').value = wanted; toy = toys.find((t) => t.id === wanted); showToy(); }
+}
+function showToy() {
+  $('toyPick').hidden = !toy;
+  if (!toy) return;
+  $('toyImg').src = toy.image || ''; $('toyName').textContent = toy.name;
+  $('toyWas').textContent = 'KSh ' + fmt(toy.price); $('toyNow').textContent = 'KSh ' + fmt(toyPrice(toy));
+}
 function renderMethods() {
   const fees = cat.delivery[$('town').value];
   $('methods').innerHTML = cat.deliveryMethods.filter((m) => m.id in fees).map((m) => `
@@ -124,7 +149,9 @@ function update() {
   $('sumUnit').textContent = size ? 'KSh ' + fmt(unit) : '—';
   $('sumQty').textContent = qty; $('qty').textContent = qty;
   $('sumTown').textContent = $('town').value + ' (' + cat.deliveryMethods.find((m) => m.id === method).name + ')'; $('sumFee').textContent = fee ? 'KSh ' + fmt(fee) : 'Free';
-  $('sumTotal').textContent = fmt(size ? unit * qty + fee : 0);
+  $('sumToyRow').hidden = !toy;
+  if (toy) { $('sumToyName').textContent = `${toy.name} (${cat.bundle.toyDiscountPercent}% off)`; $('sumToy').textContent = 'KSh ' + fmt(toyPrice(toy)); }
+  $('sumTotal').textContent = fmt(size ? unit * qty + (toy ? toyPrice(toy) : 0) + fee : 0);
 }
 
 $('styles').addEventListener('click', (e) => {
@@ -154,7 +181,7 @@ $('form').addEventListener('submit', async (e) => {
   $('submit').disabled = true;
   try {
     const r = await fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: product.code, size, qty, name: $('name').value, town: $('town').value, stage: $('stage').value, phone: $('phone').value, method }) });
+      body: JSON.stringify({ code: product.code, size, qty, name: $('name').value, town: $('town').value, stage: $('stage').value, phone: $('phone').value, method, toyId: toy ? toy.id : null }) });
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Something went wrong.');
     location.href = `/order?no=${encodeURIComponent(data.orderNo)}&k=${encodeURIComponent(data.key)}`;

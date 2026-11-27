@@ -142,6 +142,7 @@ function card(o) {
     <div class="order-top"><b>${esc(o.orderNo)}</b><span class="st st-${esc(o.status)}">${esc(LABEL[o.status] || o.status)}</span></div>
     <div class="meta">
       <div><strong>${esc(i.name)}</strong> (${esc(i.code)}) · size ${i.size} · qty ${i.qty}</div>
+      ${o.toy ? `<div>+ Toy: <strong>${esc(o.toy.name)}</strong> · KSh ${fmt(o.toy.price)} (${o.toy.discountPercent}% bundle)</div>` : ''}
       <div>${esc(c.name)} · ${esc(phone)}</div>
       <div>Deliver to <strong>${esc(c.town)}</strong> by <strong>${esc(o.delivery ? o.delivery.name : 'Matatu parcel')}</strong>${c.stage ? ' · ' + esc(c.stage) : ''}</div>
       <div>Total <strong>KSh ${fmt(o.total)}</strong> (incl. delivery KSh ${fmt(o.deliveryFee)}) · ${esc(when)}</div>

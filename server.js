@@ -80,7 +80,7 @@ app.get('/api/catalogue', (_req, res) => {
 app.post('/api/order', async (req, res) => {
   try {
     const cat = catalogue();
-    const { code, size, qty = 1, name, town, stage = '', phone, method = 'matatu' } = req.body || {};
+    const { code, size, qty = 1, name, town, stage = '', phone, method = 'matatu', toyId = null } = req.body || {};
     const product = cat.products.find((p) => p.code === code);
     const s = Number(size), q = Number(qty);
     const msisdn = normalisePhone(phone);
@@ -94,9 +94,17 @@ app.post('/api/order', async (req, res) => {
     if (!methodInfo || !(method in cat.delivery[town])) return res.status(400).json({ error: 'Please choose a delivery option.' });
     if (!msisdn) return res.status(400).json({ error: 'Enter a valid Safaricom number, e.g. 0712 345 678.' });
 
+    let toy = null;
+    if (toyId) {
+      const t = (cat.toys || []).find((x) => x.id === toyId && x.inStock && x.price && !x.noBundle);
+      if (!t) return res.status(400).json({ error: 'That toy is not available.' });
+      const pct = (cat.bundle && cat.bundle.toyDiscountPercent) || 0;
+      const price = Math.round((t.price * (100 - pct)) / 100 / 10) * 10;
+      toy = { id: t.id, name: t.name, brand: t.brand, listPrice: t.price, discountPercent: pct, price };
+    }
     const unit = priceForSize(cat, s);
     const deliveryFee = cat.delivery[town][method];
-    const total = unit * q + deliveryFee;
+    const total = unit * q + (toy ? toy.price : 0) + deliveryFee;
     const db = load();
     const orderNo = newOrderNo(db);
     const order = {
@@ -105,7 +113,7 @@ app.post('/api/order', async (req, res) => {
       customer: { name: String(name).trim(), phone: msisdn, town, stage: String(stage).slice(0, 80) },
       delivery: { method, name: methodInfo.name },
       item: { code, name: product.name, size: s, qty: q, unitPrice: unit },
-      deliveryFee, total,
+      toy, deliveryFee, total,
     };
 
     db[orderNo] = order;
@@ -155,7 +163,7 @@ app.get('/api/orders/:orderNo', (req, res) => {
     item: o.item, image: product ? product.image : null, town: o.customer.town, name: o.customer.name,
     deliveryName: o.delivery ? o.delivery.name : 'Matatu parcel', deliveryMethod: o.delivery ? o.delivery.method : 'matatu',
     mapsUrl: cat.business.mapsUrl, shopName: cat.business.shopName,
-    deliveryFee: o.deliveryFee, total: o.total, note: o.note || null, failReason: o.failReason || null,
+    toy: o.toy || null, deliveryFee: o.deliveryFee, total: o.total, note: o.note || null, failReason: o.failReason || null,
     paybill: cat.business.paybill, account: cat.business.account, whatsapp: cat.business.whatsapp,
   });
 });
@@ -218,6 +226,7 @@ function etimsLines(o) {
     reference: `${o.orderNo} / M-Pesa ${o.mpesaReceipt || '-'}`,
     lines: [
       { item: `${o.item.name} (${o.item.code}) size ${o.item.size}`, qty: o.item.qty, unitPriceInclVAT: o.item.unitPrice, ...split(o.item.unitPrice * o.item.qty) },
+      ...(o.toy ? [{ item: `${o.toy.name} (toy, ${o.toy.discountPercent}% bundle discount)`, qty: 1, unitPriceInclVAT: o.toy.price, ...split(o.toy.price) }] : []),
       ...(o.deliveryFee > 0 ? [{ item: `Delivery (${o.delivery ? o.delivery.name : 'Matatu parcel'}) to ${o.customer.town}`, qty: 1, unitPriceInclVAT: o.deliveryFee, ...split(o.deliveryFee) }] : []),
     ],
     totalInclVAT: o.total,

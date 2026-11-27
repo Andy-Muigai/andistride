@@ -52,8 +52,8 @@
         <div class="hero-text">
           <span class="pill">Christmas gifts</span>
           <h2 class="h1">Surprise them this Christmas</h2>
-          <p>LEGO, Barbie, Hot Wheels, remote control cars and more. Many are single pieces, so grab yours before they're gone.</p>
-          <div class="hero-ctas"><a class="btn btn-white" href="#toys">Shop toys</a><a class="btn btn-ghost" href="https://wa.me/254754144378">Ask on WhatsApp</a></div>
+          <p><b>Bundle deal: 10% off any toy</b> when you buy school shoes. LEGO, Barbie, Hot Wheels, R/C cars and more. Many are single pieces, so grab yours early.</p>
+          <div class="hero-ctas"><a class="btn btn-white" href="#toys">Shop toys</a><a class="btn btn-ghost" href="/checkout">Shoes + toy deal</a></div>
         </div>
         <div class="hero-imgs toys-imgs">
           <img src="/images/toys/lego-f1-driver-mclaren.jpg" alt="LEGO City F1 Driver with McLaren Race Car">
@@ -160,7 +160,7 @@
 
 <section class="block toys" id="toys" aria-labelledby="toys-title">
   <div class="wrap">
-    <div class="section-head"><div><h2 id="toys-title">Toys</h2><p>Branded toys from LEGO, Barbie, Hot Wheels, Nerf and more. Order on WhatsApp.</p>
+    <div class="section-head"><div><h2 id="toys-title">Toys</h2><p>Branded toys from LEGO, Barbie, Hot Wheels, Nerf and more. Order on WhatsApp, or <b>add one to a school shoe order and get 10% off</b>.</p>
       <p class="avail-note"><b>Subject to availability.</b> Many toys are single pieces, so we'll confirm stock on WhatsApp before you pay.</p></div></div>
     <div class="filters" role="group" aria-label="Filter toys" id="toyFilters" style="margin-bottom:18px"></div>
     <div class="grid" id="toyGrid"></div>
@@ -303,6 +303,7 @@ fetch('/api/catalogue').then((r) => r.json()).then((cat) => {
             <span class="price">${t.price ? 'KSh ' + fmt(t.price) : 'Price on request'}</span>
             <a class="btn btn-primary" href="${ask}">${t.price ? 'Order' : 'Ask'}</a>
           </div>
+          ${t.price && cat.bundle && !t.noBundle ? `<a class="bundle-link" href="/checkout?toy=${encodeURIComponent(t.id)}">KSh ${fmt(Math.round(t.price * (100 - cat.bundle.toyDiscountPercent) / 1000) * 10)} with school shoes</a>` : ''}
         </div>
       </article>`;
     }).join('') || '<p>New toys coming soon.</p>';
