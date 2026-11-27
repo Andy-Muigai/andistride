@@ -95,7 +95,9 @@ app.post('/api/order', async (req, res) => {
     if (!msisdn) return res.status(400).json({ error: 'Enter a valid Safaricom number, e.g. 0712 345 678.' });
 
     let toy = null;
+    const bundleOn = cat.bundle && (!cat.bundle.endsAt || Date.now() <= Date.parse(cat.bundle.endsAt));
     if (toyId) {
+      if (!bundleOn) return res.status(400).json({ error: 'The shoes + toy offer has ended.' });
       const t = (cat.toys || []).find((x) => x.id === toyId && x.inStock && x.price && !x.noBundle);
       if (!t) return res.status(400).json({ error: 'That toy is not available.' });
       const pct = (cat.bundle && cat.bundle.toyDiscountPercent) || 0;

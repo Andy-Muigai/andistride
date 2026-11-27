@@ -162,7 +162,7 @@
       "minSize": 37,
       "maxSize": 42,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -173,7 +173,7 @@
       "minSize": 31,
       "maxSize": 36,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -184,7 +184,7 @@
       "minSize": 31,
       "maxSize": 36,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -195,7 +195,7 @@
       "minSize": 25,
       "maxSize": 30,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -206,7 +206,7 @@
       "minSize": 37,
       "maxSize": 42,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -217,7 +217,7 @@
       "minSize": 31,
       "maxSize": 36,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -228,7 +228,7 @@
       "minSize": 31,
       "maxSize": 36,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -239,7 +239,7 @@
       "minSize": 25,
       "maxSize": 30,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -250,7 +250,7 @@
       "minSize": 27,
       "maxSize": 30,
       "inStock": true,
-      "limited": false,
+      "limited": true,
       "soldOutSizes": []
     },
     {
@@ -634,6 +634,7 @@
   ],
   "bundle": {
     "toyDiscountPercent": 10,
-    "note": "10% off one toy when bought with school shoes"
+    "note": "10% off one toy when bought with school shoes, until Christmas Day",
+    "endsAt": "2026-12-25T23:59:59+03:00"
   }
 }

@@ -119,9 +119,9 @@ let method = 'matatu', toy = null;
 const toyPrice = (t) => Math.round((t.price * (100 - cat.bundle.toyDiscountPercent)) / 100 / 10) * 10;
 function setupBundle(wanted) {
   const toys = (cat.toys || []).filter((t) => t.inStock && t.price && !t.noBundle);
-  if (!cat.bundle || !toys.length) return;
+  if (!cat.bundle || !toys.length || (cat.bundle.endsAt && Date.now() > Date.parse(cat.bundle.endsAt))) return;
   $('bundlePanel').hidden = false;
-  $('bundleHint').textContent = `Get ${cat.bundle.toyDiscountPercent}% off one toy when you buy school shoes. Perfect as a Christmas gift.`;
+  $('bundleHint').textContent = `Get ${cat.bundle.toyDiscountPercent}% off one toy when you buy school shoes. Offer ends Christmas Day.`;
   $('toy').insertAdjacentHTML('beforeend', toys.map((t) => `<option value="${esc(t.id)}">${esc(t.name)}: KSh ${fmt(toyPrice(t))} (was ${fmt(t.price)})</option>`).join(''));
   $('toy').onchange = () => { toy = toys.find((t) => t.id === $('toy').value) || null; showToy(); update(); };
   if (wanted && toys.some((t) => t.id === wanted)) { $('toy').value = wanted; toy = toys.find((t) => t.id === wanted); showToy(); }

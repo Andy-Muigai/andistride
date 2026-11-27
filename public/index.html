@@ -51,8 +51,9 @@
       <div class="wrap">
         <div class="hero-text">
           <span class="pill">Christmas gifts</span>
-          <h2 class="h1">Surprise them this Christmas</h2>
-          <p><b>Bundle deal: 10% off any toy</b> when you buy school shoes. LEGO, Barbie, Hot Wheels, R/C cars and more. Many are single pieces, so grab yours early.</p>
+          <h2 class="h1">Make your kids’ 2026 Christmas a memory they’ll never forget</h2>
+          <p><b>10% off any toy</b> with school shoes, until Christmas Day. LEGO, Barbie, Hot Wheels, R/C cars and more. Stocks are limited.</p>
+          <div class="countdown" data-countdown aria-live="off"></div>
           <div class="hero-ctas"><a class="btn btn-white" href="#toys">Shop toys</a><a class="btn btn-ghost" href="/checkout">Shoes + toy deal</a></div>
         </div>
         <div class="hero-imgs toys-imgs">
@@ -134,7 +135,7 @@
 <section class="block" id="shop">
   <div class="wrap">
     <div class="section-head">
-      <div><h2>School shoes</h2><p>Pick a style, choose a size and pay with M-Pesa.</p></div>
+      <div><h2>School shoes</h2><p>Pick a style, choose a size and pay with M-Pesa.</p><p class="avail-note"><b>Limited stock.</b> Each style comes in a few pairs per size, so order early for January.</p></div>
       <div class="filters" role="group" aria-label="Filter shoes" id="filters"></div>
     </div>
     <div class="grid" id="grid"><p>Loading shoes…</p></div>
@@ -161,6 +162,7 @@
 <section class="block toys" id="toys" aria-labelledby="toys-title">
   <div class="wrap">
     <div class="section-head"><div><h2 id="toys-title">Toys</h2><p>Branded toys from LEGO, Barbie, Hot Wheels, Nerf and more. Order on WhatsApp, or <b>add one to a school shoe order and get 10% off</b>.</p>
+      <div class="offer-box"><b>Make your kids’ 2026 Christmas a memory they’ll never forget.</b> Add a toy to any school shoe order and get <b>10% off</b>. Offer ends Christmas Day:<div class="countdown" data-countdown></div></div>
       <p class="avail-note"><b>Subject to availability.</b> Many toys are single pieces, so we'll confirm stock on WhatsApp before you pay.</p></div></div>
     <div class="filters" role="group" aria-label="Filter toys" id="toyFilters" style="margin-bottom:18px"></div>
     <div class="grid" id="toyGrid"></div>
@@ -233,6 +235,19 @@
   ['mouseleave', 'focusout'].forEach((ev) => hero.addEventListener(ev, () => (paused = false)));
   hero.addEventListener('touchend', () => setTimeout(() => (paused = false), 4000), { passive: true });
   mark(); restart();
+})();
+// Christmas offer countdown
+(() => {
+  const end = new Date('2026-12-25T23:59:59+03:00').getTime();
+  const els = document.querySelectorAll('[data-countdown]');
+  const tick = () => {
+    const ms = end - Date.now();
+    if (ms <= 0) { els.forEach((e) => (e.textContent = 'Offer ended')); return; }
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60;
+    const cell = (n, l) => `<span><b>${String(n).padStart(2, '0')}</b><small>${l}</small></span>`;
+    els.forEach((e) => (e.innerHTML = cell(d, 'days') + cell(h, 'hrs') + cell(m, 'mins') + cell(s, 'secs')));
+  };
+  tick(); setInterval(tick, 1000);
 })();
 // announcement: Christmas message until 25 December, then back-to-school
 (() => {
