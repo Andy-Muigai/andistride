@@ -288,3 +288,22 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid 
 .dots,.car-btn{z-index:6}
 .slide{min-width:0;overflow:hidden}
 .picks-grid{flex:3 1 300px;min-width:0}
+
+/* 10% OFF badge */
+.off-badge{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:#C8102E;color:#fff!important;text-decoration:none;line-height:1;box-shadow:0 0 0 3px #FFE08A,0 6px 14px rgba(200,16,46,.35);transform:rotate(-10deg);animation:badgePulse 2.2s ease-in-out infinite;padding:0!important;margin-left:6px}
+.off-badge b{font:800 17px Lexend,sans-serif}
+.off-badge small{font:700 10px Inter,sans-serif;letter-spacing:1px}
+.off-badge:hover{background:#A50D26}
+@keyframes badgePulse{0%,100%{transform:rotate(-10deg) scale(1)}50%{transform:rotate(-10deg) scale(1.08)}}
+.off-badge.big{width:84px;height:84px;flex:none;animation:none}
+.off-badge.big b{font-size:26px}.off-badge.big small{font-size:12px}
+@media (prefers-reduced-motion:reduce){.off-badge{animation:none}}
+/* checkout deal panel */
+.bundle-panel{background:linear-gradient(135deg,#FFF1F3,#fff);border:2px solid #C8102E}
+.bundle-head{display:flex;gap:16px;align-items:flex-start;margin-bottom:12px}
+.bundle-head h2{margin:0 0 6px;color:#9B1C31}
+.deal-terms{margin:0;padding-left:18px;font-size:14px;line-height:1.7;color:#4A2630}
+.countdown.mini{display:block;margin-top:6px;font-size:13px;color:#9B1C31}
+.countdown.mini b{font:800 15px Lexend,sans-serif}
+.offer-cta{margin-top:14px;color:#9B1C31!important}
+.toy-pick small{color:#1D6B36;font-weight:600}

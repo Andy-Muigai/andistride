@@ -14,7 +14,8 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="/"><img src="/images/logo.jpg" alt="Andifusion logo"><span><b>ANDISTRIDE</b><small>BY ANDIFUSION</small></span></a>
-    <nav class="nav"><a href="/#shop">← Back to shop</a></nav>
+    <nav class="nav"><a href="/#shop">← Back to shop</a>  <a class="off-badge" href="/checkout#bundle" aria-label="10% off a toy with school shoes. See the offer"><b>10%</b><small>OFF</small></a>
+    </nav>
   </div>
 </header>
 
@@ -24,6 +25,18 @@
     <h1 style="margin:32px 0 0;font-size:clamp(30px,4vw,40px)">Checkout</h1>
     <div class="checkout">
       <div class="checkout-main">
+        <section class="panel bundle-panel" id="bundle" hidden>
+          <div class="bundle-head"><span class="off-badge big" aria-hidden="true"><b>10%</b><small>OFF</small></span>
+            <div><h2>Christmas deal: 10% off a toy</h2>
+            <ul class="deal-terms">
+              <li>Buy school shoes and add <b>one toy</b> at 10% off</li>
+              <li>Offer ends Christmas Day, 25 December</li>
+              <li>Toys are subject to availability; we confirm before you pay</li>
+            </ul><div class="countdown mini" data-countdown></div></div></div>
+          <div class="fields"><label class="wide">Pick your toy (optional)<select id="toy"><option value="">No toy, just the shoes</option></select></label></div>
+          <div class="toy-pick" id="toyPick" hidden><img id="toyImg" alt=""><div><b id="toyName"></b><div><s id="toyWas"></s> <b class="now" id="toyNow"></b></div><small>You save <span id="toySave"></span></small></div></div>
+        </section>
+
         <section class="panel"><h2>1. Choose a style</h2><div class="styles" id="styles"></div></section>
 
         <section class="panel">
@@ -35,13 +48,6 @@
             <output id="qty">1</output>
             <button type="button" id="inc" aria-label="Increase quantity">+</button>
           </div>
-        </section>
-
-        <section class="panel bundle-panel" id="bundlePanel" hidden>
-          <h2>Add a toy <span class="deal">Bundle deal</span></h2>
-          <p class="hint" id="bundleHint"></p>
-          <div class="fields"><label class="wide">Toy (optional)<select id="toy"><option value="">No toy, just the shoes</option></select></label></div>
-          <div class="toy-pick" id="toyPick" hidden><img id="toyImg" alt=""><div><b id="toyName"></b><div><s id="toyWas"></s> <b class="now" id="toyNow"></b></div><small>Subject to availability</small></div></div>
         </section>
 
         <section class="panel">
@@ -120,8 +126,7 @@ const toyPrice = (t) => Math.round((t.price * (100 - cat.bundle.toyDiscountPerce
 function setupBundle(wanted) {
   const toys = (cat.toys || []).filter((t) => t.inStock && t.price && !t.noBundle);
   if (!cat.bundle || !toys.length || (cat.bundle.endsAt && Date.now() > Date.parse(cat.bundle.endsAt))) return;
-  $('bundlePanel').hidden = false;
-  $('bundleHint').textContent = `Get ${cat.bundle.toyDiscountPercent}% off one toy when you buy school shoes. Offer ends Christmas Day.`;
+  $('bundle').hidden = false; if (location.hash === '#bundle') setTimeout(() => $('bundle').scrollIntoView({ block: 'start' }), 100);
   $('toy').insertAdjacentHTML('beforeend', toys.map((t) => `<option value="${esc(t.id)}">${esc(t.name)}: KSh ${fmt(toyPrice(t))} (was ${fmt(t.price)})</option>`).join(''));
   $('toy').onchange = () => { toy = toys.find((t) => t.id === $('toy').value) || null; showToy(); update(); };
   if (wanted && toys.some((t) => t.id === wanted)) { $('toy').value = wanted; toy = toys.find((t) => t.id === wanted); showToy(); }
@@ -130,7 +135,7 @@ function showToy() {
   $('toyPick').hidden = !toy;
   if (!toy) return;
   $('toyImg').src = toy.image || ''; $('toyName').textContent = toy.name;
-  $('toyWas').textContent = 'KSh ' + fmt(toy.price); $('toyNow').textContent = 'KSh ' + fmt(toyPrice(toy));
+  $('toyWas').textContent = 'KSh ' + fmt(toy.price); $('toyNow').textContent = 'KSh ' + fmt(toyPrice(toy)); $('toySave').textContent = 'KSh ' + fmt(toy.price - toyPrice(toy));
 }
 function renderMethods() {
   const fees = cat.delivery[$('town').value];
@@ -191,6 +196,15 @@ $('form').addEventListener('submit', async (e) => {
   } finally { $('submit').disabled = false; }
 });
 
+// countdown
+(() => {
+  const end = new Date('2026-12-25T23:59:59+03:00').getTime();
+  const tick = () => { const ms = end - Date.now(); document.querySelectorAll('[data-countdown]').forEach((e) => {
+    if (ms <= 0) { e.textContent = ''; return; }
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60;
+    e.innerHTML = `Ends in <b>${d}</b> days <b>${h}</b> hrs <b>${m}</b> mins`; }); };
+  tick(); setInterval(tick, 30000);
+})();
 </script>
 </body>
 </html>
