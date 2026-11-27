@@ -307,3 +307,11 @@ input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid 
 .countdown.mini b{font:800 15px Lexend,sans-serif}
 .offer-cta{margin-top:14px;color:#9B1C31!important}
 .toy-pick small{color:#1D6B36;font-weight:600}
+
+/* why parents */
+.parents{background:linear-gradient(180deg,#FFF6F7,#F5FAFE)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.why{background:#fff;border:1px solid #F3D3D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px}
+.why b{font:700 18px Lexend,sans-serif;color:var(--navy)}
+.why span{color:var(--muted);font-size:15px;line-height:1.5}
+.xmas-btn{background:#C8102E;color:#fff}.xmas-btn:hover{background:#A50D26;color:#fff}
